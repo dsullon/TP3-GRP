@@ -14,7 +14,7 @@ angular.module('app')
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         //$rootScope.baseUrl = "http://localhost:5375/api";
-        $rootScope.baseUrl = "http://grpwebapi.azurewebsites.net/api";
+        $rootScope.baseUrl = "http://grpwebapi2.azurewebsites.net/api";
       }
     ]
   )
@@ -108,6 +108,57 @@ angular.module('app')
                     'models/articulo.js',
                     'models/nutricional.js',
                     'models/producto.js'
+                  ]
+                });
+              }
+            }
+          })
+          .state('app.combo',{
+            url: '/combo',
+            templateUrl: 'views/combo/index.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'models/combo.js',
+                    'controllers/combo/index.js'
+                  ]
+                });
+              }
+            }
+          })
+          .state('app.crearCombo',{
+            url: '/combo/nuevo',
+            templateUrl: 'views/combo/create.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'controllers/combo/create.js',
+                    'controllers/producto-modal.js',
+                    'models/categoria.js',
+                    'models/producto.js',
+                    'models/combo.js'
+                  ]
+                });
+              }
+            }
+          })
+          .state('app.editarCombo',{
+            url: '/producto/{id:[0-9]{1,4}}',
+            templateUrl: 'views/combo/editar.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'controllers/combo/edit.js',
+                    'controllers/producto-modal.js',
+                    'models/categoria.js',
+                    'models/producto.js',
+                    'models/combo.js'
                   ]
                 });
               }

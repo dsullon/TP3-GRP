@@ -1,7 +1,7 @@
 <div class="container2" ng-controller='ProductoEditarCtrl'>
     <div class="margenPanelRigth">
         <fieldset>
-            <legend>Nuevo producto</legend>
+            <legend>Editar producto</legend>
             <br />
             <alert ng-if="alert!=null" type="{{alert.type}}" close="closeAlert()">
                 <span style="white-space: pre-line;">{{alert.msg}}</span>
@@ -180,11 +180,11 @@
                                 <tbody>
                                     <tr ng-repeat="item in Insumos" class="link">
                                         <td>{{ item.Nombre }}</td>
-                                        <td class="text-right">{{ item.Cantidad }}</td>
+                                        <td class="text-right">{{ item.Cantidad | number:3}}</td>
                                         <td class="text-center">{{ item.UnidadMedida }}</td>
-                                        <td class="text-right">{{ item.Costo }}</td>
-                                        <td class="text-right">{{ item.Rendimiento }}</td>
-                                        <td class="text-right">{{ item.Importe }}</td>
+                                        <td class="text-right">{{ item.Costo | number:2}}</td>
+                                        <td class="text-right">{{ item.Rendimiento | number:2}}</td>
+                                        <td class="text-right">{{ item.Importe | number:2}}</td>
                                         <td><a class="link" ng-click="quitarItem(item)">Eliminar</a></td>
                                     </tr>
                                 </tbody>

@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <h3 class="modal-title">Agregar producto</h3>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+        <div class="icon-addon addon-sm">
+            <input type="text" ng-model="busqueda.nombre" placeholder="Buscar" class="form-control" ng-change="buscar()">
+            <label for="buscar" class="glyphicon glyphicon-search" rel="tooltip" title="Buscar"></label>
+        </div>
+        {{search}}
+    </div>
+    <table class="table table-bordered table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in filterList | start: (currentPage - 1) * itemsPerPage | limitTo: itemsPerPage"
+            ng-click="ok(row)" class="link">
+                <td>{{ row.Nombre }}</td>
+                <td>S/. {{row.Precio | number: 2}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination total-items="filterList.length" ng-model="currentPage"
+        class="pagination-sm" items-per-page="itemsPerPage"></pagination>
+    <br/>
+</div>
+<div class="modal-footer">                  
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+</div>

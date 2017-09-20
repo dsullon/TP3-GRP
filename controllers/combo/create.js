@@ -1,60 +1,71 @@
-app.controller('ProductoEditarCtrl', function ($scope, $stateParams, $state, $modal, ProductoFtry, 
-    ArticuloFtry, CategoriaFtry, NutricionalFtry) {
-    var id = $stateParams.id;
-    $scope.isLoading = true;
-    ProductoFtry.get(id).success(function (data) {
-        $scope.producto = data;
-        ArticuloFtry.getAll().success(function (data) {
-            $scope.listaArticulo = data;
-            CategoriaFtry.getAll().success(function (data) {
-                $scope.listaCategoria = data;
-                $scope.isLoading = false;
-            });
-        });
-        ProductoFtry.getDetails(id).success(function (data) {
-            $scope.Insumos = data;
-            calcularCosto();
-            calcularRendimientoNutricional();
+app.controller('ComboCrearCtrl', function ($scope, $state, $modal, ProductoFtry, CategoriaFtry) {
+    $scope.combo = {
+        'Nombre': '',
+        'Descripcion': '',
+        'Precio': '0.00',
+        'IdCategoria': '0',
+        'Descuento': '20',
+        'Promocion': true
+    };
+    var productos = [];
+
+    $scope.alert = null;
+
+    $scope.principal = [];
+    $scope.extra = [];
+
+    ProductoFtry.getAll().success(function(data){
+        productos = data;
+        CategoriaFtry.getAll().success(function (data) {
+            $scope.listaCategoria = data;
         });
     })
 
+    
+
     $scope.open = function (size) {
-        if(isNaN($scope.producto.Porciones)){
-            $scope.showAlert = true;
-            $scope.alert.type = 'warning';
-            $scope.alert.msg = 'No se ha ingresado el número de porciones';
-            return;
-        }
         var modalInstance = $modal.open({
-            templateUrl: 'modalContent.html',
-            controller: 'ModalInstanceCtrl',
+            templateUrl: 'productoPrincipal.html',
+            controller: 'ProductoModalCtrl',
             size: size,
             resolve: {
                 items: function () {
-                    return $scope.listaArticulo;
+                    return productos;
                 }
             }
         });
-        modalInstance.result.then(function (selectedItem) {
-            //$scope.selected = selectedItem;
-            NutricionalFtry.get(selectedItem.item.Id).success(function (data) {
-                var nuevoIngrediente = {};
-                nuevoIngrediente.IdArticulo = selectedItem.item.Id;
-                nuevoIngrediente.Nombre = selectedItem.item.Nombre;
-                nuevoIngrediente.Cantidad = parseFloat(selectedItem.cantidad).toFixed(3);
-                nuevoIngrediente.UnidadMedida = selectedItem.item.UnidadMedida;
-                nuevoIngrediente.Costo = (selectedItem.item.Costo).toFixed(2);
-                nuevoIngrediente.Rendimiento = parseFloat(selectedItem.rendimiento).toFixed(2);
-                nuevoIngrediente.Importe = parseFloat((nuevoIngrediente.Cantidad/(nuevoIngrediente.Rendimiento/100))* nuevoIngrediente.Costo).toFixed(2);
-                nuevoIngrediente.Calorias = parseFloat(data.Calorias * nuevoIngrediente.Cantidad);
-                nuevoIngrediente.Carbohidratos = parseFloat(data.Carbohidratos * nuevoIngrediente.Cantidad);
-                nuevoIngrediente.Grasas = parseFloat(data.Grasas * nuevoIngrediente.Cantidad);
-                nuevoIngrediente.Proteinas = parseFloat(data.Proteinas * nuevoIngrediente.Cantidad);
-                $scope.Insumos.push(nuevoIngrediente);
-                calcularCosto();
-                calcularRendimientoNutricional();
-            });
-            
+        modalInstance.result.then(function (item) {
+            var nuevoItem = {};
+            nuevoItem.IdProducto = item.Id;
+            nuevoItem.Nombre = item.Nombre;
+            nuevoItem.Precio = item.Precio;
+            nuevoItem.Cantidad = 1;
+            nuevoItem.EsPrincipal = true;
+            $scope.principal.push(nuevoItem);
+        }, function () {
+            console.log('Modal dismissed at: ' + new Date());
+        });
+    }
+
+    $scope.open1 = function (size) {
+        var modalInstance = $modal.open({
+            templateUrl: 'productoPrincipal.html',
+            controller: 'ProductoModalCtrl',
+            size: size,
+            resolve: {
+                items: function () {
+                    return productos;
+                }
+            }
+        });
+        modalInstance.result.then(function (item) {
+            var nuevoItem = {};
+            nuevoItem.IdProducto = item.Id;
+            nuevoItem.Nombre = item.Nombre;
+            nuevoItem.Precio = item.Precio;
+            nuevoItem.Cantidad = 1;
+            nuevoItem.EsPrincipal = false;
+            $scope.extra.push(nuevoItem);
         }, function () {
             console.log('Modal dismissed at: ' + new Date());
         });
@@ -110,13 +121,14 @@ app.controller('ProductoEditarCtrl', function ($scope, $stateParams, $state, $mo
         if(isNaN($scope.producto.Porciones) || $scope.producto.Porciones < 1){
             msg += '\nNo se ha ingresado un número de porciones válido.';
         }
+        console.log(msg);
         if(msg){
             $scope.alert = { type: 'warning', msg: msg };
             return;
         }
 
         $scope.producto.Insumos = $scope.Insumos;
-        ProductoFtry.update($scope.producto).success(function (data) {
+        ProductoFtry.create($scope.producto).success(function (data) {
             alert("Datos grabados");
             $state.go("app.producto");
         }).error(function (data) {
@@ -124,10 +136,7 @@ app.controller('ProductoEditarCtrl', function ($scope, $stateParams, $state, $mo
         });
     }
 
-    $scope.quitarItem = function (insumo) {
-        var index = $scope.Insumos.indexOf(insumo);
-        $scope.Insumos.splice(index, 1);
-        calcularCosto();
-        calcularRendimientoNutricional();
-    }
+    $scope.closeAlert = function () {
+        $scope.alert = null;
+    };
 })

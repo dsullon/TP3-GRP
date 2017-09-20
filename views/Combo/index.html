@@ -1,0 +1,57 @@
+<div class="container2" ng-controller='ComboCtrl'>
+    <div class="margenPanelRigth">
+        <fieldset>
+            <legend>Gestión de combos</legend>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-table"></i> Listado de combos</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-group row col-md-3">
+                            <span class="input-group-btn" style="padding-left:5px;">
+                                <a class="btn btn-primary" ui-sref="app.crearCombo"  title='Crear combo'>
+                                    <span class='glyphicon glyphicon-folder-open'>
+                                        Nuevo
+                                    </span>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <img ng-if="isLoading" src="Images/Wait.gif"/>
+                            <div class="alert alert-warning" ng-if="showNoData">No hay datos disponibles</div>
+                            <table class="table table-striped m-b-none">
+                                <thead>
+                                    <tr>
+                                        <th>Combo</th>
+                                        <th>Descripción</th>
+                                        <th>Precio</th>
+                                        <th>Categoría</th>
+                                        <th>Promo</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="combo in listaCombo | start: (currentPage - 1) * itemsPerPage | limitTo: itemsPerPage">
+                                        <td>{{combo.Nombre}}</td>
+                                        <td>{{combo.Descripcion}}</td>
+                                        <td>S/. {{combo.Precio | number:2}}</td>
+                                        <td>{{combo.Categoria}}</td>
+                                        <td>{{combo.Descuento}}</td>
+                                        <td><a ui-sref="app.editarProducto({id:combo.Id})" title="Editar producto">Editar</a> | 
+                                            <a ng-click="eliminar(combo.Id)" href="#"  title="Eliminar producto">Eliminar</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <pagination total-items="totalItems" ng-model="currentPage"
+                                class="pagination-sm" items-per-page="itemsPerPage"></pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </fieldset>
+    </div>
+</div>
