@@ -1,12 +1,33 @@
-app.controller('ComboCrearCtrl', function ($scope, $state, $modal, ComboFtry, ProductoFtry, CategoriaFtry) {
-    $scope.combo = {
-        'Nombre': '',
-        'Descripcion': '',
-        'Precio': '0.00',
-        'IdCategoria': '0',
-        'Descuento': 0,
-        'Promocion': false
-    };
+app.controller('ComboEditarCtrl', function ($scope, $stateParams, $state, $modal, ComboFtry, ProductoFtry, CategoriaFtry) {
+    var id = $stateParams.id;
+    $scope.isLoading = true;
+    var productos = [];
+    ComboFtry.get(id).success(function (data) {
+        $scope.combo = data;
+        ProductoFtry.getAll().success(function (data) {
+            productos = data;
+            CategoriaFtry.getAll().success(function (data) {
+                $scope.listaCategoria = data;
+                $scope.isLoading = false;
+            });
+        });
+        ComboFtry.getDetails(id).success(function (data) {
+            var datos = data;
+            for (var idx = 0; idx < productos.length; idx++) {
+                item = productos[idx];
+                if(item.EsPrincipal){
+                    $scope.principal.push(item);
+                }
+            }
+            for (var idx = 0; idx < productos.length; idx++) {
+                item = productos[idx];
+                if(!item.EsPrincipal){
+                    $scope.extra.push(item);
+                }
+            }
+            calcularCosto();
+        });
+    })
     var productos = [];
 
     $scope.alert = null;
@@ -42,6 +63,7 @@ app.controller('ComboCrearCtrl', function ($scope, $state, $modal, ComboFtry, Pr
             $scope.principal.push(nuevoItem);
             calcularCosto();
         }, function () {
+            console.log('Modal dismissed at: ' + new Date());
         });
     }
 
@@ -64,9 +86,9 @@ app.controller('ComboCrearCtrl', function ($scope, $state, $modal, ComboFtry, Pr
             nuevoItem.Cantidad = 1;
             nuevoItem.EsPrincipal = false;
             $scope.extra.push(nuevoItem);
-            console.log(nuevoItem);
             calcularCosto();
         }, function () {
+            console.log('Modal dismissed at: ' + new Date());
         });
     }
 
@@ -166,6 +188,8 @@ app.controller('ComboCrearCtrl', function ($scope, $state, $modal, ComboFtry, Pr
             detalles.push(item);
         }
         $scope.combo.Productos = detalles;
+
+        console.log($scope.combo);
         
         ComboFtry.create($scope.combo).success(function (data) {
             alert("Datos grabados");

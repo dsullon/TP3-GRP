@@ -5,6 +5,8 @@ app.controller('ComboCtrl', function ($scope, ComboFtry) {
         $scope.listaCombo = data;
         $scope.isLoading = false;
         $scope.showNoData = false;
+        $scope.totalItems = $scope.listaCombo.length;
+        console.log($scope.listaCombo);
     }).error(function(err){
         $scope.isLoading = false;
         $scope.showNoData = true;
@@ -13,4 +15,8 @@ app.controller('ComboCtrl', function ($scope, ComboFtry) {
     $scope.eliminar = function(id){
         alert(id);
     }
+
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 10;
+    $scope.maxSize = 5; //Number of pager buttons to show
 })

@@ -12,6 +12,12 @@ app.factory("ComboFtry", function ($http, $location, $rootScope) {
                 method: 'GET'
             });
         },
+        getDetails: function (id) {
+            return $http({
+                url: $rootScope.baseUrl + '/combo/' + id + '/detalle',
+                method: 'GET'
+            });
+        },
         update: function (data) {
             return $http({
                 url: $rootScope.baseUrl + '/combo',
