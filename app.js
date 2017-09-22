@@ -12,4 +12,5 @@ angular
     'ui.bootstrap',
     'ui.router',
     'oc.lazyLoad',
+    'checklist-model'
   ]);

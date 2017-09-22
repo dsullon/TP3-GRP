@@ -3,6 +3,7 @@ app.controller('ComboCrearCtrl', function ($scope, $state, $modal, ComboFtry, Pr
         'Nombre': '',
         'Descripcion': '',
         'Precio': '0.00',
+        'PrecioVenta': '0.00',
         'IdCategoria': '0',
         'Descuento': 0,
         'Promocion': false
@@ -83,7 +84,8 @@ app.controller('ComboCrearCtrl', function ($scope, $state, $modal, ComboFtry, Pr
             costoTotal += parseFloat(item.Precio * item.Cantidad);
         }
         dcto = parseFloat(costoTotal * ($scope.combo.Descuento/100)).toFixed(2);
-        $scope.combo.Precio = parseFloat(costoTotal - dcto).toFixed(2);
+        $scope.combo.Precio = parseFloat(costoTotal).toFixed(2);
+        $scope.combo.PrecioVenta = parseFloat(costoTotal - dcto).toFixed(2);
     }
 
     $scope.actualizarPrecio = function(item){

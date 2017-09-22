@@ -27,9 +27,10 @@
                                     <tr>
                                         <th>Combo</th>
                                         <th>Descripción</th>
-                                        <th>Precio</th>
                                         <th>Categoría</th>
-                                        <th>Promo</th>
+                                        <th>Precio</th>                                        
+                                        <th>% Dcto</th>
+                                        <th>Precio Vta.</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -37,9 +38,10 @@
                                     <tr ng-repeat="combo in listaCombo | start: (currentPage - 1) * itemsPerPage | limitTo: itemsPerPage">
                                         <td>{{combo.Nombre}}</td>
                                         <td>{{combo.Descripcion}}</td>
-                                        <td>S/. {{combo.Precio | number:2}}</td>
                                         <td>{{combo.Categoria}}</td>
-                                        <td>{{combo.Descuento}}</td>
+                                        <td class="text-right">S/. {{combo.Precio | number:2}}</td>
+                                        <td class="text-right">{{combo.Descuento | number:2}}</td>
+                                        <td class="text-right">S/. {{combo.PrecioVenta | number:2}}</td>
                                         <td><a ui-sref="app.editarCombo({id:combo.Id})" title="Editar producto">Editar</a> | 
                                             <a ng-click="eliminar(combo.Id)" href="#"  title="Eliminar producto">Eliminar</a></td>
                                     </tr>

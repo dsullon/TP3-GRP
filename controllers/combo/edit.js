@@ -2,45 +2,39 @@ app.controller('ComboEditarCtrl', function ($scope, $stateParams, $state, $modal
     var id = $stateParams.id;
     $scope.isLoading = true;
     var productos = [];
-    ComboFtry.get(id).success(function (data) {
-        $scope.combo = data;
-        ProductoFtry.getAll().success(function (data) {
-            productos = data;
-            CategoriaFtry.getAll().success(function (data) {
-                $scope.listaCategoria = data;
-                $scope.isLoading = false;
-            });
-        });
-        ComboFtry.getDetails(id).success(function (data) {
-            var datos = data;
-            for (var idx = 0; idx < productos.length; idx++) {
-                item = productos[idx];
-                if(item.EsPrincipal){
-                    $scope.principal.push(item);
-                }
-            }
-            for (var idx = 0; idx < productos.length; idx++) {
-                item = productos[idx];
-                if(!item.EsPrincipal){
-                    $scope.extra.push(item);
-                }
-            }
-            calcularCosto();
-        });
-    })
-    var productos = [];
-
-    $scope.alert = null;
-
     $scope.principal = [];
     $scope.extra = [];
+    $scope.enviar = [];
+    CategoriaFtry.getAll().success(function (data) {
+        $scope.listaCategoria = data;
+        ProductoFtry.getAll().success(function (data) {
+            productos = data;
+            ComboFtry.get(id).success(function (data) {
+                $scope.combo = data;
+                console.log($scope.combo);
+                $scope.combo.Promocion = $scope.combo.Descuento > 0;
+                ComboFtry.getDetails(id).success(function (data) {
+                    var datos = data;
+                    for (var idx = 0; idx < datos.length; idx++) {
+                        item = datos[idx];
+                        if(item.EsPrincipal){
+                            $scope.principal.push(item);
+                        }
+                    }
+                    for (var idx = 0; idx < datos.length; idx++) {
+                        item = datos[idx];
+                        if(!item.EsPrincipal){
+                            $scope.extra.push(item);
+                        }
+                    }
+                    calcularCosto();
+                    $scope.isLoading = false;
+                })
+            })
+        })
+    });
 
-    ProductoFtry.getAll().success(function(data){
-        productos = data;
-        CategoriaFtry.getAll().success(function (data) {
-            $scope.listaCategoria = data;
-        });
-    })    
+    $scope.alert = null;   
 
     $scope.open = function (size) {
         var modalInstance = $modal.open({
@@ -105,7 +99,9 @@ app.controller('ComboEditarCtrl', function ($scope, $stateParams, $state, $modal
             costoTotal += parseFloat(item.Precio * item.Cantidad);
         }
         dcto = parseFloat(costoTotal * ($scope.combo.Descuento/100)).toFixed(2);
-        $scope.combo.Precio = parseFloat(costoTotal - dcto).toFixed(2);
+        $scope.combo.Precio = parseFloat(costoTotal).toFixed(2);
+        $scope.combo.PrecioVenta = parseFloat(costoTotal - dcto).toFixed(2);
+        console.log($scope.enviar);
     }
 
     $scope.actualizarPrecio = function(item){
@@ -191,7 +187,7 @@ app.controller('ComboEditarCtrl', function ($scope, $stateParams, $state, $modal
 
         console.log($scope.combo);
         
-        ComboFtry.create($scope.combo).success(function (data) {
+        ComboFtry.update($scope.combo).success(function (data) {
             alert("Datos grabados");
             $state.go("app.combo");
         }).error(function (data) {

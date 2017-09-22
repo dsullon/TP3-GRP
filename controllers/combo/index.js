@@ -6,7 +6,6 @@ app.controller('ComboCtrl', function ($scope, ComboFtry) {
         $scope.isLoading = false;
         $scope.showNoData = false;
         $scope.totalItems = $scope.listaCombo.length;
-        console.log($scope.listaCombo);
     }).error(function(err){
         $scope.isLoading = false;
         $scope.showNoData = true;

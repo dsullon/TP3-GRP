@@ -1,11 +1,12 @@
 <div class="container2" ng-controller='ComboEditarCtrl'>
     <div class="margenPanelRigth">
         <fieldset>
-            <legend>Nuevo combo</legend>
+            <legend>Editar combo</legend>
             <br />
             <alert ng-if="alert!=null" type="{{alert.type}}" close="closeAlert()">
                 <span style="white-space: pre-line;">{{alert.msg}}</span>
             </alert>
+            <img ng-if="isLoading" src="Images/Wait.gif"/>
             <div class="form-horizontal" role="form">
                 <div class="row">
                     <div class="col-sm-3">
@@ -67,6 +68,14 @@
                             <label for="inputType" class="col-md-3 control-label">Precio:</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control text-right" ng-model="combo.Precio" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="inputType" class="col-md-4 control-label">Precio Vta.:</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control text-right" ng-model="combo.PrecioVenta" disabled>
                             </div>
                         </div>
                     </div>
