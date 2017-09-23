@@ -42,7 +42,7 @@
                                         <td>{{alerta.FechaAlerta}}</td>   
                                         <td>{{alerta.CostoXUM}}</td>      
                                         <td>
-                                            <input toggle-checkbox toggle-checkbox-list="alertaLista" toggle-checkbox-property="selected" type="checkbox" />
+                                            <input type="checkbox" checklist-model="enviar" checklist-value="alerta.Id"/>
                                         </td>                                                 
                                 </tr>
                                 </tbody>
@@ -50,7 +50,7 @@
 
                             <table>
                                 <div class="form-group row col-md-3" style="text-align:center;">
-                                    <a class="btn btn-primary" ui-sref="app.simularprecio" title='Simular Precio'>
+                                    <a class="btn btn-primary" ng-click="productos()" title='Simular Precio'>
                                         <span class='glyphicon glyphicon-hand-up'>
                                             ATENDER
                                         </span>

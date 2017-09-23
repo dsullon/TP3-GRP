@@ -123,6 +123,7 @@ angular.module('app')
                   files: [ 
                     'models/controlcosto.js',
                     'controllers/controlcosto/index.js'
+                    ]
                 });
               }
             }
@@ -173,7 +174,6 @@ angular.module('app')
                     'models/categoria.js',
                     'models/producto.js',
                     'models/combo.js'
->>>>>>> dsullon
                   ]
                 });
               }
@@ -196,6 +196,9 @@ angular.module('app')
           })
           .state('app.simularprecio',{
             url: '/controlcosto',
+            params: {
+              producto: null
+            },
             templateUrl: 'views/controlcosto/create.html',
             resolve: {
               load: function($ocLazyLoad){
@@ -203,6 +206,7 @@ angular.module('app')
                   name: "app",
                   files: [ 
                     'models/simularprecio.js',
+                    'models/producto.js',
                     'controllers/controlcosto/simularprecio.js'
                   ]
                 });
