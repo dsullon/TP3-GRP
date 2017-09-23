@@ -123,6 +123,57 @@ angular.module('app')
                   files: [ 
                     'models/controlcosto.js',
                     'controllers/controlcosto/index.js'
+                });
+              }
+            }
+          })
+          .state('app.combo',{
+            url: '/combo',
+            templateUrl: 'views/combo/index.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'models/combo.js',
+                    'controllers/combo/index.js'
+                  ]
+                });
+              }
+            }
+          })
+          .state('app.crearCombo',{
+            url: '/combo/nuevo',
+            templateUrl: 'views/combo/create.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'controllers/combo/create.js',
+                    'controllers/producto-modal.js',
+                    'models/categoria.js',
+                    'models/producto.js',
+                    'models/combo.js'
+                  ]
+                });
+              }
+            }
+          })
+          .state('app.editarCombo',{
+            url: '/combo/{id:[0-9]{1,4}}',
+            templateUrl: 'views/combo/editar.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'controllers/combo/edit.js',
+                    'controllers/producto-modal.js',
+                    'models/categoria.js',
+                    'models/producto.js',
+                    'models/combo.js'
+>>>>>>> dsullon
                   ]
                 });
               }

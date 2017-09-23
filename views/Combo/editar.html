@@ -1,0 +1,168 @@
+<div class="container2" ng-controller='ComboEditarCtrl'>
+    <div class="margenPanelRigth">
+        <fieldset>
+            <legend>Editar combo</legend>
+            <br />
+            <alert ng-if="alert!=null" type="{{alert.type}}" close="closeAlert()">
+                <span style="white-space: pre-line;">{{alert.msg}}</span>
+            </alert>
+            <img ng-if="isLoading" src="Images/Wait.gif"/>
+            <div class="form-horizontal" role="form">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="inputType" class="col-md-3 control-label">Categoría:</label>
+                            <div class="col-md-8">
+                                <select
+                                    name="repeatSelect"
+                                    class="form-control"
+                                    id="repeatSelect" 
+                                    ng-model="combo.IdCategoria"
+                                    ng-options="option.Id as option.Nombre for option in listaCategoria"
+                                    required>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="inputType" class="col-md-3 control-label">Nombre:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" ng-model="combo.Nombre">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="inputType" class="col-md-3 control-label">Descripción:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" ng-model="combo.Descripcion">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="inputType" class="col-md-3 control-label">Promoc.:</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <input type="checkbox" ng-model="combo.Promocion" ng-change="actualizarEstado()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="inputType" class="col-md-3 control-label">%Dcto.:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" ng-model="combo.Descuento" 
+                                    ng-disabled="!combo.Promocion" ng-change="actualizarDcto()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="inputType" class="col-md-3 control-label">Precio:</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control text-right" ng-model="combo.Precio" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="inputType" class="col-md-4 control-label">Precio Vta.:</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control text-right" ng-model="combo.PrecioVenta" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset class="fieldset-border">
+                        <legend class="legend-border">Prod. Principal</legend>
+                        <a class="btn" ng-click="open()"  title='Agregar producto' ng-if="principal.length == 0">
+                            Agregar
+                        </a>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div>
+                                    <table class="table table-bordered table-condensed table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Nombre</th>
+                                                <th class="text-center" style="width: 80px;">Cant.</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in principal" class="link">
+                                                <td>{{ item.Nombre }}</td>
+                                                <td class="text-right" style="width: 80px;">
+                                                    <input class="text-right" type="number" ng-model=" item.Cantidad" 
+                                                        min="1" max="20" ng-change="actualizarPrecio(item)">
+                                                </td>
+                                                <td style="width: 80px;"><a ng-click="quitarPrincipal(item)" title="Eliminar producto">Quitar</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>                    
+                </div>
+                <div class="col-md-6">
+                    <fieldset class="fieldset-border">
+                        <legend class="legend-border">Prod. Extra</legend>
+                        <a class="btn" ng-click="open1()"  title='Agregar producto'>
+                            Agregar
+                        </a>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="gridSolicitud">
+                                    <table class="table table-bordered table-condensed table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Nombre</th>
+                                                <th class="text-center" style="width: 80px;">Cant.</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in extra" class="link">
+                                                <td>{{ item.Nombre }}</td>
+                                                <td class="text-right" style="width: 80px;">
+                                                    <input class="text-right" type="number" ng-model=" item.Cantidad"
+                                                        min="1" max="20" ng-change="actualizarPrecio(item)">
+                                                </td>
+                                                <td style="width: 80px;"><a ng-click="quitarExtra(item)" title="Eliminar producto">Quitar</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group row col-md-3">
+                    <span class="input-group-btn" style="padding-left:5px;">
+                        <button class="btn btn-primary" ng-click="grabar()">
+                            <span class='glyphicon glyphicon-floppy-disk'>
+                                Grabar
+                            </span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </fieldset>
+        <script type="text/ng-template" id="productoPrincipal.html">
+            <div ng-include="'views/template/producto.html'"></div>
+        </script>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 <div class="container2" ng-controller='ProductoEditarCtrl'>
     <div class="margenPanelRigth">
         <fieldset>
-            <legend>Nuevo producto</legend>
+            <legend>Editar producto</legend>
             <br />
             <tabset class="tab-container">
                 <tab>
@@ -162,12 +162,14 @@
                                         <th class="text-center">Costo Unid.</th>
                                         <th class="text-center">% Rendim.</th>
                                         <th class="text-center">Importe</th>
+                                        <th class="text-center"></th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
                                         <td colspan="5" class="text-right">Costo Total:</td>
                                         <td>{{ producto.Costo }}</td>
+                                        <td></td>
                                     </tr>
                                 </tfoot>
                                 <tbody>
@@ -176,8 +178,9 @@
                                         <td class="text-right">{{ item.Cantidad | number:3}}</td>
                                         <td class="text-center">{{ item.UnidadMedida }}</td>
                                         <td class="text-right">{{ item.Costo | number:2}}</td>
-                                        <td class="text-right">{{ item.Rendimiento | number:2 }}</td>
+                                        <td class="text-right">{{ item.Rendimiento | number:2}}</td>
                                         <td class="text-right">{{ item.Importe | number:2}}</td>
+                                        <td><a class="link" ng-click="quitarItem(item)">Eliminar</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -188,8 +191,8 @@
             <div class="row">
                 <div class="form-group row col-md-3">
                     <span class="input-group-btn" style="padding-left:5px;">
-                        <a class="btn btn-primary" ui-sref="app.crearProducto"  title='Grabar producto'>
-                            <span class='glyphicon glyphicon-floppy-disk' ng-click="grabar()">
+                        <button class="btn btn-primary" ng-click="grabar()">
+                            <span class='glyphicon glyphicon-floppy-disk'>
                                 Grabar
                             </span>
                         </a>
