@@ -14,7 +14,7 @@ angular.module('app')
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         //$rootScope.baseUrl = "http://localhost:5375/api";
-        $rootScope.baseUrl = "http://grpwebapi.azurewebsites.net/api";
+        $rootScope.baseUrl = "http://grpwebapi2.azurewebsites.net/api";
       }
     ]
   )
@@ -144,7 +144,7 @@ angular.module('app')
             }
           })
           .state('app.simularprecio',{
-            url: '/controlcosto/simularPrecio',
+            url: '/controlcosto',
             templateUrl: 'views/controlcosto/create.html',
             resolve: {
               load: function($ocLazyLoad){
