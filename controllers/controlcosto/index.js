@@ -27,6 +27,14 @@ app.controller('controlCostoCtrl', function ($scope, $state, controlCostoFtry,fi
     };
 
     $scope.productos = function(){
+        var ids = [];
+        for (var i = 0; i < $scope.enviar.length; i++) {
+            ids.push(
+                {
+                    'id': $scope.enviar[i]
+                }
+            );
+        };
         $state.go('app.simularprecio', {producto: $scope.enviar});
     }
 

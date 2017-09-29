@@ -17,14 +17,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                           <!--                 <tr ng-repeat="item in CombosxRetiro" class="link">   -->
-                            <td class="text-center">iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii</td>
-                            <td class="text-center">jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</td>
-                            <td class="text-center">kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</td>
-                            <!--               </tr> -->
+                            <tr ng-repeat="alerta in alertaLista | start: (currentPage - 1) * itemsPerPage | limitTo: itemsPerPage"
+            ng-click="selected.item = row" class="link">
+                                <td class="text-center"><a ng-click="productoDetalle(alerta.Id)">{{alerta.nombre}}</a></td>
+                                <td class="text-center">{{alerta.costo}}</td>
+                                <td class="text-center">{{alerta.precio}}</td>
+                            </tr>   
                         </tbody>
                     </div>
-                </table>                
+                </table>
+                <pagination total-items="alertaLista.length" ng-model="currentPage"
+        class="pagination-sm" items-per-page="itemsPerPage"></pagination>                
             </fieldset>
 
             <a class="btn btn-primary">
@@ -51,11 +54,12 @@
                                     </thead>
                                     <tbody>
                            <!--                 <tr ng-repeat="item in CombosxRetiro" class="link">   -->
+                               <!--            <td class="text-right">{{ selected.item.nombre }}</td>   -->
                                         <td class="text-right">ll</td>
                                         <td class="text-center">mm</td>
                                         <td class="text-center">nn</td>
                                         <td class="text-center">oo</td>
-                                        <td class="text-center">pp</td>
+                                        <td class="text-center">pp</td> 
                              <!--               </tr> -->
                                     </tbody>
                                 </table>

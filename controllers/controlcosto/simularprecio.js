@@ -1,4 +1,4 @@
-app.controller('SimularPrecioCtrl', function ($scope, $stateParams, $state, $modal, ProductoFtry) {
+app.controller('SimularPrecioCtrl', function ($scope, $stateParams, $state, $modal, ProductoFtry, simularPrecioFtry) {
     var id = $stateParams.producto;
     ProductoFtry.getAllPerItem(id).success(function (data) {
         $scope.alertaLista = data;
@@ -11,4 +11,23 @@ app.controller('SimularPrecioCtrl', function ($scope, $stateParams, $state, $mod
         $scope.showNoData = true;
         console.log(err);
     });
+
+    $scope.alertaLista = [];
+    $scope.selected = {
+        item: $scope.alertaLista[0]
+    };
+    $scope.totalItems = $scope.alertaLista.length;
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 4;
+    $scope.maxSize = 5; //Number of pager buttons to show
+
+    $scope.productoDetalle = function(id){
+        var idd = $stateParams.id;
+        //$scope.isLoading = true;
+        simularPrecioFtry.getDetails(idd).success(function (data) {
+            $scope.alerta = data;
+            console.log(data);
+        });
+    }
+
 })
