@@ -3,147 +3,149 @@
         <fieldset>
             <legend>Nuevo producto</legend>
             <br />
-            <alert ng-if="alert!=null" type="{{alert.type}}" close="closeAlert()">
-                <span style="white-space: pre-line;">{{alert.msg}}</span>
-            </alert>
-            <tabset class="tab-container">
-                <tab>
-                    <tab-heading>
-                        <i class="fa fa-list-alt"></i> Datos del producto
-                    </tab-heading>
-                    <div class="animated fadeIn">
-                        <br/>
-                        <div class="form-horizontal" role="form">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="inputType" class="col-md-2 control-label">Tipo:</label>
-                                        <div class="col-md-10">
-                                            <select
-                                                name="repeatSelect"
-                                                class="form-control"
-                                                id="repeatSelect" 
-                                                ng-model="producto.IdCategoria"
-                                                ng-options="option.Id as option.Nombre for option in listaCategoria"
-                                                required>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label for="inputType" class="col-md-2 control-label">Costo:</label>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control" ng-model="producto.Costo" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="inputType" class="col-md-2 control-label">Nombre:</label>
-                                        <div class="col-md-10">
-                                            <input type="text" class="form-control" placeholder="Nombre de producto"
-                                                ng-model="producto.Nombre" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label for="inputType" class="col-md-2 control-label">Costo Unit.:</label>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control" ng-model="producto.CostoUnitario" disabled>
-                                        </div>
-                                    </div>
-                                </div>                          
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="inputType" class="col-md-2 control-label">Porciones:</label>
-                                        <div class="col-md-4">
-                                            <input type="number" class="form-control" placeholder="Número de porciones" 
-                                                ng-model="producto.Porciones" required min="1">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label for="inputType" class="col-md-2 control-label">Precio:</label>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control" ng-model="producto.Precio" disabled>
-                                        </div>
-                                    </div>
-                                </div> 
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="inputType" class="col-md-2 control-label">Rendimiento:</label>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control" ng-model="producto.Rendimiento" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <fieldset class="fieldset-border">
-                                <legend class="legend-border">Informaci&oacute;n nutricional</legend>
+            <div uib-alert ng-if="showAlert" ng-class="'alert-' + (alert.type || 'warning')" 
+                close="closeAlert($index)">{{alert.msg}}</div>
+            <alert ng-if="alert!=null" type="{{alert.type}}" close="closeAlert()">{{alert.msg}}</alert>
+            <form name="frm">
+                <tabset class="tab-container">
+                    <tab>
+                        <tab-heading>
+                            <i class="fa fa-list-alt"></i> Datos del producto
+                        </tab-heading>
+                        <div class="animated fadeIn">
+                            <br/>
+                            <div class="form-horizontal" role="form">
                                 <div class="row">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="inputType" class="col-md-4 control-label">Grasas:</label>
-                                            <div class="col-md-4">
-                                                <input type="text" class="form-control" ng-model="producto.Grasas" disabled>
+                                            <label for="inputType" class="col-md-2 control-label">Tipo:</label>
+                                            <div class="col-md-10">
+                                                <select
+                                                    name="repeatSelect"
+                                                    class="form-control"
+                                                    id="repeatSelect" 
+                                                    ng-model="producto.IdCategoria"
+                                                    ng-options="option.Id as option.Nombre for option in listaCategoria"
+                                                    required>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                         <div class="form-group">
-                                            <label for="inputType" class="col-md-4 control-label">Proteinas:</label>
+                                            <label for="inputType" class="col-md-2 control-label">Costo:</label>
                                             <div class="col-md-4">
-                                                <input type="text" class="form-control" ng-model="producto.Proteinas" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <label for="inputType" class="col-md-4 control-label">Calorias:</label>
-                                            <div class="col-md-4">
-                                                <input type="text" class="form-control" ng-model="producto.Calorias" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <label for="inputType" class="col-md-5 control-label">Carbihidratos:</label>
-                                            <div class="col-md-4">
-                                                <input type="text" class="form-control" ng-model="producto.Carbohidratos" disabled>
+                                                <input type="text" class="form-control" ng-model="producto.Costo" disabled>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </fieldset>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="inputType" class="col-md-2 control-label">Nombre:</label>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" placeholder="Nombre de producto"
+                                                    ng-model="producto.Nombre" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputType" class="col-md-2 control-label">Costo Unit.:</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" ng-model="producto.CostoUnitario" disabled>
+                                            </div>
+                                        </div>
+                                    </div>                          
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="inputType" class="col-md-2 control-label">porcioneses:</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" placeholder="Número de porciones" 
+                                                    ng-model="producto.Porciones" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputType" class="col-md-2 control-label">Precio:</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" ng-model="producto.Precio" disabled>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="inputType" class="col-md-2 control-label">Rendimiento:</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" ng-model="producto.Rendimiento" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <fieldset class="fieldset-border">
+                                    <legend class="legend-border">Informaci&oacute;n nutricional</legend>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="inputType" class="col-md-4 control-label">Grasas:</label>
+                                                <div class="col-md-4">
+                                                    <input type="text" class="form-control" ng-model="producto.Grasas" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="inputType" class="col-md-4 control-label">Proteinas:</label>
+                                                <div class="col-md-4">
+                                                    <input type="text" class="form-control" ng-model="producto.Proteinas" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="inputType" class="col-md-4 control-label">Calorias:</label>
+                                                <div class="col-md-4">
+                                                    <input type="text" class="form-control" ng-model="producto.Calorias" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="inputType" class="col-md-5 control-label">Carbihidratos:</label>
+                                                <div class="col-md-4">
+                                                    <input type="text" class="form-control" ng-model="producto.Carbohidratos" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
                         </div>
-                    </div>
-                </tab>
-                <tab>
-                    <tab-heading>
-                        <i class="fa fa-tasks"></i> Preparaci&oacute;n
-                    </tab-heading>
-                    <div class="animated fadeIn">
-                        <br/>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <textarea class="form-control" rows="13" style="min-width: 100%"
-                                        ng-model="producto.Elaboracion" required></textarea>
+                    </tab>
+                    <tab>
+                        <tab-heading>
+                            <i class="fa fa-tasks"></i> Preparaci&oacute;n
+                        </tab-heading>
+                        <div class="animated fadeIn">
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control" rows="13" style="min-width: 100%"
+                                            ng-model="producto.Elaboracion" required></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </tab>
-            </tabset>
+                    </tab>
+                </tabset>
+            </form>
             <fieldset class="fieldset-border">
                 <legend class="legend-border">Insumos</legend>
                 <div class="row">

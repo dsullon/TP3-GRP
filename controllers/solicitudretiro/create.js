@@ -1,9 +1,11 @@
 app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal, 
     SolicitudRetiroFtry, ComboFtry) {
     $scope.solicitudretiro = {
-        'Comentario': '',
-        'IdProyeccion': '0',
-        'IdSimulacion': '0'
+        //'FechaEnvio': '',//new Date(),
+        'Comentario': 'abc',
+        'IdProyeccion': '2',    // 2:es la ultima proyeccion realizada
+        'TipoSimulacion': '1',  // 1:todos, 2:personalizada
+        'Estado': '1'           // 1:creado, 2: aprobado, 3:rechazado
     };
     $scope.PorcentajeAporteAfecto = parseFloat(0); // acumulado de % aporte de combos a retirar
     $scope.PorcentajeAporteSimulacion = parseFloat(0); // acumulado de % de aporte de combos en simmulacion
@@ -100,13 +102,28 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
     }
 
     $scope.grabar = function(){
-        $scope.solicitudretiro.Retiro = $scope.CombosRetiro;
-        $scope.solicitudretiro.Proyeccion = $scope.CombosProyeccion;
+
+        console.log($scope.solicitudretiro);
+        // $scope.solicitudretiro = // para recuperar un dato del formulario
+
+        if(!$scope.CombosxRetiro || $scope.CombosxRetiro.length == 0){
+            $scope.alert = { type: 'warning', msg: 'No se ha ingresado los combos a retirar.' };
+            return;
+        }
+        if(!$scope.CombosxProyeccion || $scope.CombosxProyeccion.length == 0){
+            $scope.alert = { type: 'warning', msg: 'No se ha realizado la simulacion de la proyeccion para compensacion.' };
+            return;
+        }
+        $scope.solicitudretiro.Combos = $scope.CombosxRetiro;
         SolicitudRetiroFtry.create($scope.solicitudretiro).success(function (data) {
             alert("Datos grabados");
-            $state.go("app.solicitudretiro");
+            $state.go("app.solicitudRetiro");
         }).error(function (data) {
-
+            console.log(data);
         });
     }
+
+    $scope.closeAlert = function () {
+        $scope.alert = null;
+    };
 })

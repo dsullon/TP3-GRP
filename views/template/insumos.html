@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="row in filterList | start: (currentPage - 1) * itemsPerPage | limitTo: itemsPerPage"
+            <tr ng-repeat="row in filterList  | start: (currentPage - 1) * itemsPerPage | limitTo: itemsPerPage"
             ng-click="selected.item = row" class="link">
                 <td>{{ row.Nombre }}</td>
                 <td>{{row.UnidadMedida}}</td>
@@ -36,7 +36,7 @@
                         <span class="input-group-addon" id="basic-addon1">Cant.:</span>
                         <input type="number" class="form-control" placeholder="Cantidad" 
                             aria-describedby="basic-addon1" ng-model="selected.cantidad"
-                            min="0.1">
+                            min="1">
                     </div>
                 </div>
                 <div class="col-sm-4">

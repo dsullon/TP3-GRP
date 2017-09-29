@@ -1,0 +1,78 @@
+<div class="container2" ng-controller='controlCostoCtrl'>
+    <div class="margenPanelRigth">
+        <fieldset>
+            <legend>Lista de Insumos con alertas de alza o baja de Costo</legend>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-table"></i> Gestión de Alertas de Umbral de Costos</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="icon-addon addon-sm">
+                                <input type="text" ng-model="busqueda.nombre" placeholder="Buscar" class="form-control" ng-change="buscar()">
+                                <label for="buscar" class="glyphicon glyphicon-search" rel="tooltip" title="Buscar"></label>
+                            </div>
+                            {{search}}
+                        </div>
+                        <div class="row">
+
+                        <div class="col-lg-12">
+                            <img ng-if="isLoading" src="Images/Wait.gif"/>
+
+                            <table class="table table-striped m-b-none">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Und. Med.</th>
+                                        <th>Costo Actual</th>
+                                        <th>Tipo Variación</th>
+                                        <th>Fecha Alerta</th>
+                                        <th>Costo Antiguo</th>
+                                        <th>Selec.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="alerta in alertaLista  | start: (currentPage - 1) * itemsPerPage | limitTo: itemsPerPage" ng-click="selected.item = alerta" class="link"> 
+                                        <td>{{alerta.Nombre}}</td>
+                                        <td>{{alerta.Descripcion}}</td>
+                                        <td>Kg</td>
+                                        <td>{{alerta.NuevoCosto}}</td>      
+                                        <td>{{alerta.TipoVariacion}}</td>      
+                                        <td>{{alerta.FechaAlerta}}</td>   
+                                        <td>{{alerta.CostoXUM}}</td>      
+                                        <td>
+                                            <input type="checkbox" checklist-model="enviar" checklist-value="alerta.Id"/>
+                                        </td>                                                 
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <table>
+                                <div class="form-group row col-md-3" style="text-align:center;">
+                                    <a class="btn btn-primary" ng-click="productos()" title='Simular Precio'>
+                                        <span class='glyphicon glyphicon-hand-up'>
+                                            ATENDER
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="form-group row col-md-3" style="text-align:center;">
+                                <pagination total-items="alertaLista.length" ng-model="currentPage" class="pagination-sm" items-per-page="itemsPerPage"></pagination>
+                                </div>
+                                <div class="form-group row col-md-3" style="text-align:center;">
+                                <a class="btn btn-primary"  ng-click="cancel()">
+                                    <span class='glyphicon glyphicon-hand-up'>
+                                        CANCELAR
+                                    </span>
+                                </a>
+                                </div>
+                            </table>
+
+                            </br>
+                        </div>
+
+                    </div>
+                </div>
+        </fieldset>
+    </div>
+</div>

@@ -24,6 +24,7 @@ app.controller('ModalInstanceCtrl', function($scope, $modalInstance, items, filt
         $modalInstance.dismiss('cancel');
     };
     
+    $scope.viewby = 5;
     $scope.totalItems = $scope.items.length;
     $scope.currentPage = 1;
     $scope.itemsPerPage = 5;

@@ -32,7 +32,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="producto in listaProducto | start: (currentPage - 1) * itemsPerPage | limitTo: itemsPerPage">
+                                    <tr ng-repeat="producto in listaProducto">
                                         <td>{{producto.Nombre}}</td>
                                         <td>{{producto.Precio | number:2}}</td>
                                         <td>{{producto.Categoria}}</td>
@@ -41,8 +41,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <pagination total-items="totalItems" ng-model="currentPage"
-                                class="pagination-sm" items-per-page="itemsPerPage"></pagination>
                         </div>
                     </div>
                 </div>

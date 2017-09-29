@@ -14,7 +14,6 @@ app.controller('ProductoEditarCtrl', function ($scope, $stateParams, $state, $mo
         ProductoFtry.getDetails(id).success(function (data) {
             $scope.Insumos = data;
             calcularCosto();
-            calcularRendimientoNutricional();
         });
     })
 

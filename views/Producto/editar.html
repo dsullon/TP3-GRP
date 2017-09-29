@@ -3,9 +3,6 @@
         <fieldset>
             <legend>Editar producto</legend>
             <br />
-            <alert ng-if="alert!=null" type="{{alert.type}}" close="closeAlert()">
-                <span style="white-space: pre-line;">{{alert.msg}}</span>
-            </alert>
             <tabset class="tab-container">
                 <tab>
                     <tab-heading>
@@ -24,9 +21,8 @@
                                                 class="form-control"
                                                 id="repeatSelect" 
                                                 ng-model="producto.IdCategoria"
-                                                ng-options="option.Id as option.Nombre for option in listaCategoria"
-                                                required>
-                                            </select>
+                                                ng-options="option.Id as option.Nombre for option in listaCategoria">          
+                                             </select>
                                         </div>
                                     </div>
                                 </div>
@@ -45,7 +41,7 @@
                                         <label for="inputType" class="col-md-2 control-label">Nombre:</label>
                                         <div class="col-md-10">
                                             <input type="text" class="form-control" placeholder="Nombre de producto"
-                                                ng-model="producto.Nombre" required>
+                                                ng-model="producto.Nombre">
                                         </div>
                                     </div>
                                 </div>
@@ -63,8 +59,8 @@
                                     <div class="form-group">
                                         <label for="inputType" class="col-md-2 control-label">Porciones:</label>
                                         <div class="col-md-4">
-                                            <input type="number" class="form-control" placeholder="Número de porciones" 
-                                                ng-model="producto.Porciones" required min="1">
+                                            <input type="text" class="form-control" placeholder="Número de porciones" 
+                                                ng-model="producto.Porciones">
                                         </div>
                                     </div>
                                 </div>
@@ -136,8 +132,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="13" style="min-width: 100%"
-                                        ng-model="producto.Elaboracion" required></textarea>
+                                    <textarea class="form-control" rows="13" style="min-width: 100%" ng-model="producto.Elaboracion"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -200,7 +195,7 @@
                             <span class='glyphicon glyphicon-floppy-disk'>
                                 Grabar
                             </span>
-                        </button>
+                        </a>
                     </span>
                 </div>
             </div>

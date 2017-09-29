@@ -14,7 +14,7 @@ app.factory("SolicitudRetiroFtry", function ($http, $location, $rootScope) {
         },
         update: function (data) {
             return $http({
-                url: $rootScope.baseUrl + '/producto',
+                url: $rootScope.baseUrl + '/solicitudretiro',
                 method: "PUT",
                 data: data,
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
@@ -22,7 +22,7 @@ app.factory("SolicitudRetiroFtry", function ($http, $location, $rootScope) {
         },
         create: function (data) {
             return $http({
-                url: $rootScope.baseUrl + '/producto',
+                url: $rootScope.baseUrl + '/solicitudretiro',
                 method: "POST",
                 data: data,
                 headers: { 'Content-Type': 'application/json' }
