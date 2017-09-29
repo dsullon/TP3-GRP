@@ -21,11 +21,12 @@ app.controller('SimularPrecioCtrl', function ($scope, $stateParams, $state, $mod
     $scope.itemsPerPage = 4;
     $scope.maxSize = 5; //Number of pager buttons to show
 
-    $scope.productoDetalle = function(id){
-        var idd = $stateParams.id;
+    $scope.productoDetalle = function(id){  
+        /*console.log(id);
+        var idd = $stateParams.id;*/
         //$scope.isLoading = true;
-        simularPrecioFtry.getDetails(idd).success(function (data) {
-            $scope.alerta = data;
+        simularPrecioFtry.getDetails(id).success(function (data) {
+            $scope.listaInsumos = data;
             console.log(data);
         });
     }
