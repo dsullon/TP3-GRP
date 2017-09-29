@@ -13,8 +13,8 @@ angular.module('app')
       function ( $rootScope,   $state,   $stateParams) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
-        $rootScope.baseUrl = "http://localhost:5375/api";
-        //$rootScope.baseUrl = "http://grpwebapi2.azurewebsites.net/api";
+        //$rootScope.baseUrl = "http://localhost:5375/api";
+        $rootScope.baseUrl = "http://grpwebapi2.azurewebsites.net/api";
       }
     ]
   )
