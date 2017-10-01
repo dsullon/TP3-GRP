@@ -1,0 +1,176 @@
+<div class="container2" ng-controller='SolicitudRetiroEditarCtrl'>
+        <div class="margenPanelRigth">
+            <fieldset>
+                <legend>Nueva solicitud de retiro de carta</legend>
+                <br />
+                <alert ng-if="alert!=null" type="{{alert.type}}" close="closeAlert()">
+                    <span style="white-space: pre-line;">{{alert.msg}}</span>
+                </alert>
+                <div class="animated fadeIn">
+                    
+                    <div class="form-horizontal" role="form">
+                        <fieldset class="fieldset-border">
+                            <legend class="legend-border">Combos a retirar</legend>
+                            <div class="row">
+                                <div class="form-group row col-md-3">
+                                    <span class="input-group-btn" style="padding-left:5px;">
+                                        <a class="btn" title='Limpiar lista'>
+                                            Limpiar lista
+                                        </a>
+                                        <a class="btn" ng-click="agregarCombosPorRetirar()" title='Agregar combo'>
+                                            Agregar combo
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="gridSolicitud">
+                                        <table class="table table-bordered table-condensed table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Combo</th>
+                                                    <th class="text-center">Vta. Proy.</th>
+                                                    <th class="text-center">% Aporte</th>
+                                                    <th class="text-center">Vta. Real</th>
+                                                    <th class="text-center">Saldo</th>
+                                                    <th class="text-center">% Cump.</th>
+                                                    <th class="text-center">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in CombosxRetiro" class="link">
+                                                    <td>{{ item.Nombre }}</td>
+                                                    <td class="text-right">{{ item.VentaProyectada }}</td>
+                                                    <td class="text-center">{{ item.PorcentajeAporte }}</td>
+                                                    <td class="text-center">{{ item.VentaReal }}</td>
+                                                    <td class="text-right">{{ item.Saldo }}</td>
+                                                    <td class="text-right">{{ item.PorcentajeCumplimiento }}</td>
+                                                    <td class="text-right">
+                                                        <a ng-click="eliminar(producto.Id)" href="#"  title="Eliminar combo">Eliminar</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td class="text-right">Totales</td>
+                                                    <th class="text-center"></th>
+                                                    <th class="text-center"></th>
+                                                    <th class="text-center"></th>
+                                                    <th class="text-center"></th>
+                                                    <th class="text-center"></th>
+                                                    <td class="text-right"></td>
+                                                </tr>
+                                            </tfoot>
+    
+                                        </table>
+                                        <br/>
+                                        <div class="form-row">                                        
+                                            <div class="form-group col-md-6">
+                                                <label class="col-form-label">Comentario:</label>
+                                                <textarea placeholder="Ingrese un comentario" class="form-control" rows="2" style="min-width: 80%" ng-model="solicitudretiro.Comentario"></textarea>
+                                            </div>                                        
+                                            <div class="form-group col-md-6" style="background-color:antiquewhite;">
+                                                <label class="col-form-label">Ingreso proyectado afecto:</label>
+                                                <input type="text" class="form-control" ng-model="IngresoProyectadoAfecto" disabled>
+                                                </br>
+                                            </div>                          
+                                        </div>
+                                    </div>
+    
+                                </div>
+                            </div>
+                        </fieldset>
+    
+                        <fieldset class="fieldset-border" ng-disabled="DesabilitarSimulacion">
+                            <legend class="legend-border">Simulaci&oacute;n de proyecci&oacute;n</legend>
+                            <fieldset>
+                                <div class="form-row">
+                                    <div class="form-group col-md-10">
+                                        <label class="col-form-label">Tipo de simulaci&oacute;n</label>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" ng-change="limpiarCombosPorSimular()" value="Personalizada" ng-model="TipoSimulacion" ng-value="1">
+                                                Distribuci&oacute;n personalizada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" ng-change="SimulacionTotal()" value="Todos" ng-model="TipoSimulacion" ng-value="0" ng-click="agregarCombosPorSimularTotal()">
+                                                Distribuci&oacute;n en todos los combos activos de la carta
+                                            </label>
+                                        </div>
+    
+                                    </div>
+                                </div>
+                            </fieldset>
+    
+                            <div class="row">
+                                <div class="form-group row col-md-3">
+                                    <span class="input-group-btn" style="padding-left:5px;">
+                                        <a class="btn" title='Realizar simulaci&oacute;n'>
+                                            Realizar simulaci&oacute;n
+                                        </a>
+                                    </span>
+                                    <span class="input-group-btn" style="padding-left:5px;">
+                                        <a class="btn" title='Limpiar simulaci&oacute;n'>
+                                            Limpiar simulaci&oacute;n
+                                        </a>
+                                    </span>
+                                    <span class="input-group-btn" style="padding-left:5px;">
+                                        <a class="btn" ng-click="agregarCombosPorSimularPersonalizado()" title='Agregar combo' ng-if="TipoSimulacion == 1">
+                                            Agregar combo
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="gridSolicitud">
+                                        <table class="table table-bordered table-condensed table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Combo</th>
+                                                    <th class="text-center">Vta. Proy.</th>
+                                                    <th class="text-center">% Aporte</th>
+                                                    <th class="text-center">Nueva Vta. Proy.</th>
+                                                    <th class="text-center">% Nuevo Aporte</th>
+                                                    <th class="text-center">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in CombosxProyeccion" class="link">
+                                                    <td class="text-left">{{ item.Nombre }}</td>
+                                                    <td class="text-right">{{ item.VentaProyectada }}</td>
+                                                    <td class="text-center">{{ item.PorcentajeAporte }}</td>
+                                                    <td class="text-right">{{ item.VentaProyectadaNueva }}</td>
+                                                    <td class="text-right">{{ item.PorcentajeNuevoAporte }}</td>
+                                                    <td class="text-right">
+                                                        <a ng-click="eliminar(producto.Id)" href="#"  title="Eliminar combo">Eliminar</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group row col-md-3">
+                        <span class="input-group-btn" style="padding-left:5px;">
+                            <button class="btn btn-primary" ng-click="grabar()" ng-disabled="frm.$invalid">
+                                <span class='glyphicon glyphicon-floppy-disk'>
+                                    Grabar
+                                </span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </fieldset>
+            <script type="text/ng-template" id="modalContent.html">
+                <div ng-include="'views/template/combo.html'"></div>
+            </script>
+        </div>
+    </div>

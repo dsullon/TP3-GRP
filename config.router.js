@@ -229,6 +229,23 @@ angular.module('app')
                 });
               }
             }
+          })
+          .state('app.editarSolicitudRetiro',{
+            url: '/solicitudretiro/{id:[0-9]{1,4}}',
+            templateUrl: 'views/solicitudretiro/edit.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'models/solicitudretiro.js',
+                    'models/combo.js',
+                    'controllers/insumos-modal.js',                    
+                    'controllers/solicitudretiro/edit.js'                    
+                  ]
+                });
+              }
+            }
           });
       }   
     ]

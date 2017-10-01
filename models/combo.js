@@ -18,6 +18,12 @@ app.factory("ComboFtry", function ($http, $location, $rootScope) {
                 method: 'GET'
             });
         },
+        getWithRelation: function () {
+            return $http({
+                url: $rootScope.baseUrl + '/combo/retiro',
+                method: 'GET'
+            });
+        },
         update: function (data) {
             return $http({
                 url: $rootScope.baseUrl + '/combo',
@@ -40,7 +46,7 @@ app.factory("ComboFtry", function ($http, $location, $rootScope) {
                 method: "POST",
                 data: data,
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-            });
+            })
         }
-    }
+    };
 });
