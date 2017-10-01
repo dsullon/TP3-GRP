@@ -11,7 +11,11 @@ app.controller('SolicitudRetiroCtrl', function ($scope, SolicitudRetiroFtry) {
         $scope.showNoData = true;
     });
 
-    $scope.eliminar = function(id){
-        alert(id);
+ /*   $scope.eliminar = function (index) {
+        var index = $scope.Insumos.indexOf(insumo);
+        $scope.listaSolicitudRetiro.splice(index, 1);
+        calcularCosto();
+        calcularRendimientoNutricional();
     }
+    */
 })

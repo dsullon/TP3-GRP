@@ -1,124 +1,96 @@
-<div class="container2" ng-controller='SimulacionCrearCtrl'>
+<div class="container2" ng-controller='SimularPrecioCtrl'>
 	<div class="margenPanelRigth">
 		<fieldset>
 			<legend>Simulación de Precio</legend>
-			<br />
-			<div uib-alert ng-if="showAlert" ng-class="'alert-' + (alert.type || 'warning')" 
-                close="closeAlert($index)">{{alert.msg}}</div>
-            <alert ng-if="alert!=null" type="{{alert.type}}" close="closeAlert()">{{alert.msg}}</alert>
-            <div class="animated fadeIn">      
+			</br>
 
-                <div class="form-horizontal" role="form">
-                    <fieldset class="fieldset-border">
-                        <legend class="legend-border">Lista de Productos afectados</legend>
-                        <div class="row">
 
-                            <div class="col-md-12">
-                                <div class="form-group row col-md-3" style="text-align:right;">
-                                    <table class="table table-bordered table-condensed table-hover">
-                                        <div class="form-group row col-md-3" style="text-align:center;">
-                                        	<thead>
-                                                <tr>
-                                                    <th class="text-center">Producto</th>
-                                                    <th class="text-center">Costo actual</th>
-                                                    <th class="text-center">Precio actual</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                               <!--                 <tr ng-repeat="item in CombosxRetiro" class="link">   -->
-                                                    <td class="text-right">ii</td>
-                                                    <td class="text-center">jj</td>
-                                                    <td class="text-center">kk</td>
-                                 <!--               </tr> -->
-                                            </tbody>
-                                        </div>
-                                    </table>
-                                </div>
-
-                                <div class="form-group row col-md-3">
-                                    <span class="input-group-btn" style="padding-rigth:5px;">
-                                        <a class="btn btn-primary"r>
-                                            <span class='glyphicon glyphicon-search'>
-                                            ACTUALIZAR COSTOS DE INSUMOS
-                                            </span>
-                                         </a>
-                                    </span>
-                                 </div>
-
-                            </div>
-           				</div>    
-
-                    </fieldset>
-                </div>
-
-			    <div class="form-horizontal" role="form">
-                    <fieldset class="fieldset-border">
-                        <legend class="legend-border">Detalle de Insimos del Producto</legend>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div id="gridProductos">
-                                    <table class="table table-bordered table-condensed table-hover">
-                                    	<thead>
-                                            <tr>
-                                                <th class="text-center">Insumo</th>
-                                                <th class="text-center">U.M</th>
-                                                <th class="text-center">Cantidad</th>
-                                                <th class="text-center">Costo Unit.</th>
-                                                <th class="text-center">Importe</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                           <!--                 <tr ng-repeat="item in CombosxRetiro" class="link">   -->
-                                                <td class="text-right">ll</td>
-                                                <td class="text-center">mm</td>
-                                                <td class="text-center">nn</td>
-                                                 <td class="text-center">oo</td>
-                                                  <td class="text-center">pp</td>
-                             <!--               </tr> -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-           				</div>                         	
-                    </fieldset>
-                </div>
-
-                <div class="form-group row col-md-3">
-                    <table>
+            <fieldset class="fieldset-border">
+                <legend class="legend-border">Lista de Productos afectados</legend>
+                <table class="table table-bordered table-condensed table-hover">
+                    <div class="col-sm-4">
                         <thead>
                             <tr>
-                                <th>
-                                    <span class="input-group-btn" style="padding-left:5px;">
-                                        <a class="btn btn-primary">
-                                            <span class='glyphicon glyphicon-hand-up'>
-                                            SIMULAR PRECIO
-                                            </span>
-                                        </a>
-                                    </span>
-                                </th>   
-                                <th>
-                                    <span class="input-group-btn" style="padding-left:5px;">
-                                        <a class="btn btn-primary">
-                                            <span class='glyphicon glyphicon-hand-up'>
-                                            CANCELAR
-                                            </span>
-                                        </a>
-                                    </span>
-                                </th>
-                                <th>
-                                    <span class="input-group-btn" style="padding-left:5px;">
-                                        <a class="btn btn-primary">
-                                            <span class='glyphicon glyphicon-hand-up'>
-                                            ENVIAR A APROBACIÓN
-                                            </span>
-                                        </a>
-                                    </span>
-                                </th>                               
+                                <th class="text-center">Producto</th>
+                                <th class="text-center">Costo actual</th>
+                                <th class="text-center">Precio actual</th>
                             </tr>
-                    </table>
-                </div>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="alerta in alertaLista | start: (currentPage - 1) * itemsPerPage | limitTo: itemsPerPage"
+            ng-click="selected.item = row" class="link">
+                                <td class="text-center"><a ng-click="productoDetalle(alerta.Id)">{{alerta.nombre}}</a></td>
+                                <td class="text-center">{{alerta.costo}}</td>
+                                <td class="text-center">{{alerta.precio}}</td>
+                            </tr>   
+                        </tbody>
+                    </div>
+                </table>
+                <pagination total-items="alertaLista.length" ng-model="currentPage"
+        class="pagination-sm" items-per-page="itemsPerPage"></pagination>                
+            </fieldset>
 
-			</br></br>
+            <a class="btn btn-primary">
+                <span class='glyphicon glyphicon-hand-up'>
+                ACTUALIZAR COSTOS DE INSUMOS
+                </span>
+            </a>
+        </br></br>
+
+            <fieldset class="fieldset-border">
+                <legend class="legend-border">Detalle de Insimos del Producto</legend>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="gridProductos">
+                                <table class="table table-bordered table-condensed table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Insumo</th>
+                                            <th class="text-center">U.M</th>
+                                            <th class="text-center">Cantidad</th>
+                                            <th class="text-center">Costo Unit.</th>
+                                            <th class="text-center">Importe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr ng-repeat="item in listaInsumos" class="link">  
+                               <!--            <td class="text-right">{{ selected.item.nombre }}</td>   -->
+                                        <td class="text-right">{{item.Nombre}}</td>
+                                        <td class="text-center">{{item.UnidadMedida}}</td>
+                                        <td class="text-center">{{item.Cantidad}}</td>
+                                        <td class="text-center">{{item.Costo}}</td>
+                                        <td class="text-center">{{item.Importe}}</td> 
+                                        </tr> 
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>                          
+            </fieldset>
+
+            <table>
+                <div class="form-group row col-md-3">
+                    <a class="btn btn-primary">
+                        <span class='glyphicon glyphicon-hand-up'>
+                        SIMULAR PRECIO
+                        </span>
+                    </a>
+                </div>
+                <div class="form-group row col-md-3">
+                    <a class="btn btn-primary">
+                        <span class='glyphicon glyphicon-hand-up'>
+                        CANCELAR
+                        </span>
+                    </a>
+                </div>
+                <div class="form-group row col-md-3">
+                    <a class="btn btn-primary">
+                        <span class='glyphicon glyphicon-hand-up'>
+                        ENVIAR A APROBACIÓN
+                        </span>
+                    </a>
+                </div>  
+            </table>
 
             <div class="row">
                 <div class="col-sm-6">
@@ -142,7 +114,7 @@
                 </div>
             </div>
 
-            </div>
+
 		</fieldset>
 	</div>
 </div>

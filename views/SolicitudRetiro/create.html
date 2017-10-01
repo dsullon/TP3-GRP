@@ -10,14 +10,14 @@
                 
                 <div class="form-horizontal" role="form">
                     <fieldset class="fieldset-border">
-                        <legend class="legend-border">Productos a retirar</legend>
+                        <legend class="legend-border">Combos a retirar</legend>
                         <div class="row">
                             <div class="form-group row col-md-3">
                                 <span class="input-group-btn" style="padding-left:5px;">
                                     <a class="btn" title='Limpiar lista'>
                                         Limpiar lista
                                     </a>
-                                    <a class="btn" ng-click="open()" title='Agregar combo'>
+                                    <a class="btn" ng-click="agregarCombosPorRetirar()" title='Agregar combo'>
                                         Agregar combo
                                     </a>
                                 </span>
@@ -47,7 +47,7 @@
                                                 <td class="text-right">{{ item.Saldo }}</td>
                                                 <td class="text-right">{{ item.PorcentajeCumplimiento }}</td>
                                                 <td class="text-right">
-                                                    <a ng-click="eliminar(producto.Id)" href="#"  title="Eliminar combo">Eliminar</a>
+                                                    <a ng-click="quitarItemEliminar(item.Id)" title="Eliminar combo">Eliminar</a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -82,7 +82,7 @@
                         </div>
                     </fieldset>
 
-                    <fieldset class="fieldset-border">
+                    <fieldset class="fieldset-border" ng-disabled="DesabilitarSimulacion">
                         <legend class="legend-border">Simulaci&oacute;n de proyecci&oacute;n</legend>
                         <fieldset>
                             <div class="form-row">
@@ -90,16 +90,17 @@
                                     <label class="col-form-label">Tipo de simulaci&oacute;n</label>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                                        Distribuci&oacute;n en todos los combos activos de la carta
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" ng-change="limpiarCombosPorSimular()" value="Personalizada" ng-model="TipoSimulacion" ng-value="1">
+                                            Distribuci&oacute;n personalizada
                                         </label>
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                                        Distribuci&oacute;n personalizada
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" ng-change="SimulacionTotal()" value="Todos" ng-model="TipoSimulacion" ng-value="0" ng-click="agregarCombosPorSimularTotal()">
+                                            Distribuci&oacute;n en todos los combos activos de la carta
                                         </label>
                                     </div>
+
                                 </div>
                             </div>
                         </fieldset>
@@ -112,13 +113,13 @@
                                     </a>
                                 </span>
                                 <span class="input-group-btn" style="padding-left:5px;">
-                                    <a class="btn" ng-click="open2()" title='Agregar combo'>
-                                        Agregar combo
+                                    <a class="btn" title='Limpiar simulaci&oacute;n'>
+                                        Limpiar simulaci&oacute;n
                                     </a>
                                 </span>
                                 <span class="input-group-btn" style="padding-left:5px;">
-                                    <a class="btn" title='Limpiar simulaci&oacute;n'>
-                                        Limpiar simulaci&oacute;n
+                                    <a class="btn" ng-click="agregarCombosPorSimularPersonalizado()" title='Agregar combo' ng-if="TipoSimulacion == 1">
+                                        Agregar combo
                                     </a>
                                 </span>
                             </div>
@@ -141,11 +142,11 @@
                                             <tr ng-repeat="item in CombosxProyeccion" class="link">
                                                 <td class="text-left">{{ item.Nombre }}</td>
                                                 <td class="text-right">{{ item.VentaProyectada }}</td>
-                                                <td class="text-center">{{ item.PorcentajeAporte }}</td>
+                                                <td class="text-center">{{ item.PorcentajeAporte | number:2 }}</td>
                                                 <td class="text-right">{{ item.VentaProyectadaNueva }}</td>
                                                 <td class="text-right">{{ item.PorcentajeNuevoAporte }}</td>
                                                 <td class="text-right">
-                                                    <a ng-click="eliminar(producto.Id)" href="#"  title="Eliminar combo">Eliminar</a>
+                                                        <a ng-click="quitarItemSimular(item.Id)" title="Eliminar combo">Eliminar</a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -160,7 +161,7 @@
                 <div class="form-group row col-md-3">
                     <span class="input-group-btn" style="padding-left:5px;">
                         <button class="btn btn-primary" ng-click="grabar()" ng-disabled="frm.$invalid">
-                            <span class='glyphicon glyphicon-floppy-disk' ng-click="grabar()">
+                            <span class='glyphicon glyphicon-floppy-disk'>
                                 Grabar
                             </span>
                         </button>

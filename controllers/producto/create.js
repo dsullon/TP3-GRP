@@ -54,7 +54,7 @@ app.controller('ProductoCrearCtrl', function ($scope, $state, $modal, ProductoFt
                 nuevoIngrediente.UnidadMedida = selectedItem.item.UnidadMedida;
                 nuevoIngrediente.Costo = (selectedItem.item.Costo).toFixed(2);
                 nuevoIngrediente.Rendimiento = parseFloat(selectedItem.rendimiento).toFixed(2);
-                nuevoIngrediente.Importe = parseFloat((nuevoIngrediente.Cantidad/nuevoIngrediente.Rendimiento)* nuevoIngrediente.Costo).toFixed(2);
+                nuevoIngrediente.Importe = parseFloat((nuevoIngrediente.Cantidad/(nuevoIngrediente.Rendimiento/100))* nuevoIngrediente.Costo).toFixed(2);
                 nuevoIngrediente.Calorias = parseFloat(data.Calorias * nuevoIngrediente.Cantidad);
                 nuevoIngrediente.Carbohidratos = parseFloat(data.Carbohidratos * nuevoIngrediente.Cantidad);
                 nuevoIngrediente.Grasas = parseFloat(data.Grasas * nuevoIngrediente.Cantidad);

@@ -34,8 +34,8 @@
                                 <tbody>
                                     <tr ng-repeat="producto in listaProducto">
                                         <td>{{producto.Nombre}}</td>
-                                        <td>{{producto.Precio}}</td>
-                                        <td>{{producto.Type}}</td>
+                                        <td>{{producto.Precio | number:2}}</td>
+                                        <td>{{producto.Categoria}}</td>
                                         <td><a ui-sref="app.editarProducto({id:producto.Id})" title="Editar producto">Editar</a> | 
                                             <a ng-click="eliminar(producto.Id)" href="#"  title="Eliminar producto">Eliminar</a></td>
                                     </tr>

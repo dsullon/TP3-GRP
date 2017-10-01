@@ -41,23 +41,25 @@
                                         <td>{{alerta.TipoVariacion}}</td>      
                                         <td>{{alerta.FechaAlerta}}</td>   
                                         <td>{{alerta.CostoXUM}}</td>      
-                                        <td><input type="checkbox"></td>                                                 
+                                        <td>
+                                            <input type="checkbox" checklist-model="enviar" checklist-value="alerta.Id"/>
+                                        </td>                                                 
                                 </tr>
                                 </tbody>
                             </table>
 
                             <table>
                                 <div class="form-group row col-md-3" style="text-align:center;">
-                                    <a class="btn btn-primary" ui-sref="app.simularprecio" title='Simular Precio'>
+                                    <a class="btn btn-primary" ng-click="productos()" title='Simular Precio'>
                                         <span class='glyphicon glyphicon-hand-up'>
                                             ATENDER
                                         </span>
                                     </a>
                                 </div>
-                                <div class="form-group row col-md-3">
+                                <div class="form-group row col-md-3" style="text-align:center;">
                                 <pagination total-items="alertaLista.length" ng-model="currentPage" class="pagination-sm" items-per-page="itemsPerPage"></pagination>
                                 </div>
-                                <div class="form-group row col-md-3">
+                                <div class="form-group row col-md-3" style="text-align:center;">
                                 <a class="btn btn-primary"  ng-click="cancel()">
                                     <span class='glyphicon glyphicon-hand-up'>
                                         CANCELAR

@@ -18,6 +18,15 @@ app.factory("ProductoFtry", function ($http, $location, $rootScope) {
                 method: 'GET'
             });
         },
+        getAllPerItem: function (id) {
+            return $http({
+                url: $rootScope.baseUrl + '/producto/item/',
+                params: {
+                    id: id
+                },
+                method: 'GET'
+            });
+        },
         update: function (data) {
             return $http({
                 url: $rootScope.baseUrl + '/producto',

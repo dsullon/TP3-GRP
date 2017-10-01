@@ -13,8 +13,8 @@ angular.module('app')
       function ( $rootScope,   $state,   $stateParams) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
-        $rootScope.baseUrl = "http://localhost:5375/api";
-        //$rootScope.baseUrl = "http://grpwebapi.azurewebsites.net/api";
+        //$rootScope.baseUrl = "http://localhost:5375/api";
+        $rootScope.baseUrl = "http://grpwebapi2.azurewebsites.net/api";
       }
     ]
   )
@@ -123,6 +123,57 @@ angular.module('app')
                   files: [ 
                     'models/controlcosto.js',
                     'controllers/controlcosto/index.js'
+                    ]
+                });
+              }
+            }
+          })
+          .state('app.combo',{
+            url: '/combo',
+            templateUrl: 'views/combo/index.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'models/combo.js',
+                    'controllers/combo/index.js'
+                  ]
+                });
+              }
+            }
+          })
+          .state('app.crearCombo',{
+            url: '/combo/nuevo',
+            templateUrl: 'views/combo/create.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'controllers/combo/create.js',
+                    'controllers/producto-modal.js',
+                    'models/categoria.js',
+                    'models/producto.js',
+                    'models/combo.js'
+                  ]
+                });
+              }
+            }
+          })
+          .state('app.editarCombo',{
+            url: '/combo/{id:[0-9]{1,4}}',
+            templateUrl: 'views/combo/editar.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'controllers/combo/edit.js',
+                    'controllers/producto-modal.js',
+                    'models/categoria.js',
+                    'models/producto.js',
+                    'models/combo.js'
                   ]
                 });
               }
@@ -144,7 +195,10 @@ angular.module('app')
             }
           })
           .state('app.simularprecio',{
-            url: '/controlcosto/simularPrecio',
+            url: '/controlcosto',
+            params: {
+              producto: null
+            },
             templateUrl: 'views/controlcosto/create.html',
             resolve: {
               load: function($ocLazyLoad){
@@ -152,6 +206,7 @@ angular.module('app')
                   name: "app",
                   files: [ 
                     'models/simularprecio.js',
+                    'models/producto.js',
                     'controllers/controlcosto/simularprecio.js'
                   ]
                 });
@@ -170,6 +225,23 @@ angular.module('app')
                     'models/combo.js',
                     'controllers/insumos-modal.js',                    
                     'controllers/solicitudretiro/create.js'                    
+                  ]
+                });
+              }
+            }
+          })
+          .state('app.editarSolicitudRetiro',{
+            url: '/solicitudretiro/{id:[0-9]{1,4}}',
+            templateUrl: 'views/solicitudretiro/edit.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'models/solicitudretiro.js',
+                    'models/combo.js',
+                    'controllers/insumos-modal.js',                    
+                    'controllers/solicitudretiro/edit.js'                    
                   ]
                 });
               }

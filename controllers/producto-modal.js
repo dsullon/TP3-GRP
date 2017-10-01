@@ -1,30 +1,22 @@
-app.controller('ModalInstanceCtrl', function($scope, $modalInstance, items, filterFilter) {
+app.controller('ProductoModalCtrl', function($scope, $modalInstance, items, filterFilter) {
     $scope.items = items;
     $scope.filterList = items;
     $scope.selected = {
-        item: $scope.items[0],
-        cantidad: 1,
-        rendimiento: 100
+        item: $scope.items[0]
     };
 
     $scope.busqueda = {
         nombre: ''
     };
 
-    $scope.ok = function () {
-        if((isNaN($scope.selected.cantidad) || $scope.selected.cantidad == 0) || 
-            (isNaN($scope.selected.rendimiento) || $scope.selected.rendimiento == 0)){
-            return;
-        }else{
-            $modalInstance.close($scope.selected);
-        }
+    $scope.ok = function (item) {
+        $modalInstance.close(item);
     };
     
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
     
-    $scope.viewby = 5;
     $scope.totalItems = $scope.items.length;
     $scope.currentPage = 1;
     $scope.itemsPerPage = 5;

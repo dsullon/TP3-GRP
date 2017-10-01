@@ -1,12 +1,9 @@
-app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal, 
+app.controller('SolicitudRetiroEditarCtrl', function ($scope, $stateParams, $state, $modal, 
     SolicitudRetiroFtry, ComboFtry) {
-    $scope.solicitudretiro = {
-        //'FechaEnvio': '',//new Date(),
-        'Comentario': '',
-        'IdProyeccion': '2',    // 2:es la ultima proyeccion realizada
-        'TipoSimulacion': '1',  // 1:todos, 2:personalizada
-        'Estado': '1'           // 1:creado, 2: aprobado, 3:rechazado
-    };
+    var id = $stateParams.id;
+    $scope.isLoading = true;
+    $scope.solicitudretiro = {};
+
     var Tipo = 1;// Tipo item solicitud de la tabla comboSolicitudRetiro
     $scope.PorcentajeAporteAfecto = parseFloat(0); // acumulado de % aporte de combos a retirar
     $scope.PorcentajeAporteSimulacion = parseFloat(0); // acumulado de % de aporte de combos en simmulacion
@@ -15,10 +12,22 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
     $scope.IngresoProyectadoAfecto = parseFloat(0);
     $scope.DesabilitarSimulacion = true; //para controlar fieldset de simulacion
     $scope.TipoSimulacion = 1; // para controlar el boton agregar combo
+
+    SolicitudRetiroFtry.get(id).success(function (data) {
+        $scope.solicitudretiro = data;
+        ComboFtry.getAll().success(function (data) {
+            $scope.listaCombo = data;
+        });
+
+        SolicitudRetiroFtry.getDetails(id).success(function (data) {
+            $scope.CombosxRetiro = data;
+            console.log(data);
+        });
+    })
+
+/*
    
-    ComboFtry.getWithRelation().success(function (data) {
-        $scope.listaCombo = data;
-    });
+
 
     $scope.agregarCombosPorRetirar = function (size) {
         var modalInstance = $modal.open({
@@ -90,7 +99,7 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
     }
 
     function cargarCombosPorSimular(selectedItem){
-        //console.log(selectedItem);  
+        console.log(selectedItem);  
         var nuevoRegistro = {};
         nuevoRegistro.Id = selectedItem.item.Id;
         nuevoRegistro.Nombre = selectedItem.item.Nombre;
@@ -106,6 +115,7 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
     }
 
     $scope.agregarCombosPorSimularTotal = function (){
+        //console.log($scope.listaCombo);
         var data = {
             item:{}
         };
@@ -146,16 +156,5 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
         $scope.alert = null;
     };
 
-    $scope.quitarItemEliminar = function (insumo) {
-        var index = $scope.CombosxRetiro.indexOf(insumo);
-        $scope.CombosxRetiro.splice(index, 1);
-
-    }
-
-    $scope.quitarItemSimular = function (insumo) {
-        var index = $scope.CombosxProyeccion.indexOf(insumo);
-        $scope.CombosxProyeccion.splice(index, 1);
-
-    }
-
+    */
 })

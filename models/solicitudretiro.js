@@ -12,6 +12,12 @@ app.factory("SolicitudRetiroFtry", function ($http, $location, $rootScope) {
                 method: 'GET'
             });
         },
+        getDetails: function (id) {
+            return $http({
+                url: $rootScope.baseUrl + '/solicitudretiro/' + id + '/details',
+                method: 'GET'
+            });
+        },
         update: function (data) {
             return $http({
                 url: $rootScope.baseUrl + '/solicitudretiro',
