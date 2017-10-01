@@ -16,7 +16,7 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
     $scope.DesabilitarSimulacion = true; //para controlar fieldset de simulacion
     $scope.TipoSimulacion = 1; // para controlar el boton agregar combo
    
-    ComboFtry.getAll().success(function (data) {
+    ComboFtry.getWithRelation().success(function (data) {
         $scope.listaCombo = data;
     });
 
