@@ -40,12 +40,10 @@ app.factory("ComboFtry", function ($http, $location, $rootScope) {
                 headers: { 'Content-Type': 'application/json' }
             });
         },
-        delete: function (data) {
+        delete: function (id) {
             return $http({
-                url: 'data/Area/delete',
-                method: "POST",
-                data: data,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                url: $rootScope.baseUrl + '/combo/' + id , 
+                method: "DELETE"
             })
         }
     };

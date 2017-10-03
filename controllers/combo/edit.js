@@ -184,8 +184,6 @@ app.controller('ComboEditarCtrl', function ($scope, $stateParams, $state, $modal
             detalles.push(item);
         }
         $scope.combo.Productos = detalles;
-
-        console.log($scope.combo);
         
         ComboFtry.update($scope.combo).success(function (data) {
             alert("Datos grabados");
