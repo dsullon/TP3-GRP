@@ -1,11 +1,19 @@
-app.controller('SimularPrecioCtrl', function ($scope, $stateParams, $state, $modal, ProductoFtry, simularPrecioFtry) {
+app.controller('SimularPrecioCtrl', function ($scope, $stateParams, $state, $modal, ProductoFtry, controlCostoFtry, simularPrecioFtry) {
     var id = $stateParams.producto;
+    $scope.listaArticulo = [];
     ProductoFtry.getAllPerItem(id).success(function (data) {
         $scope.alertaLista = data;
         $scope.isLoading = false;
         $scope.showNoData = false;
         $scope.items = $scope.alertaLista;
-        console.log(data);
+        for (var i = 0; i < id.length; i++) {
+            controlCostoFtry.getUmbralPerId(id[i]).success(function (data) {                
+                $scope.listaArticulo.push(data);
+            }).error(function(err){
+
+            });
+        }
+        console.log($scope.listaArticulo);
     }).error(function(err){
         $scope.isLoading = false;
         $scope.showNoData = true;

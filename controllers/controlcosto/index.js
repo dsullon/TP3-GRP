@@ -8,6 +8,7 @@ app.controller('controlCostoCtrl', function ($scope, $state, controlCostoFtry,fi
         $scope.showNoData = false;
         $scope.items = $scope.alertaLista;
     }).error(function(err){
+        console.log(err);
         $scope.isLoading = false;
         $scope.showNoData = true;
     });

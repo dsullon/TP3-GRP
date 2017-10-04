@@ -5,6 +5,12 @@ app.factory("controlCostoFtry", function ($http, $location, $rootScope) {
                 url: $rootScope.baseUrl + '/articulo/umbral',
                 method: 'GET'
             });
+        },
+        getUmbralPerId: function (id) {
+            return $http({
+                url: $rootScope.baseUrl + '/articulo/umbral/' + id,
+                method: 'GET'
+            });
         }
     }
 });

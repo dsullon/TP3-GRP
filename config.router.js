@@ -13,8 +13,8 @@ angular.module('app')
       function ( $rootScope,   $state,   $stateParams) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
-        //$rootScope.baseUrl = "http://localhost:5375/api";
-        $rootScope.baseUrl = "http://grpwebapi.azurewebsites.net/api";
+        $rootScope.baseUrl = "http://localhost:5375/api";
+        //$rootScope.baseUrl = "http://grpwebapi.azurewebsites.net/api";
       }
     ]
   )
@@ -204,7 +204,8 @@ angular.module('app')
               load: function($ocLazyLoad){
                 return $ocLazyLoad.load({
                   name: "app",
-                  files: [ 
+                  files: [
+                    'models/controlcosto.js',
                     'models/simularprecio.js',
                     'models/producto.js',
                     'controllers/controlcosto/simularprecio.js'
