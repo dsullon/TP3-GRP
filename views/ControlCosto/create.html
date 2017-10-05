@@ -2,9 +2,8 @@
 	<div class="margenPanelRigth">
 		<fieldset>
 			<legend>Simulación de Precio</legend>
-			</br>
-
-
+            </br>
+            <img ng-if="isLoading" src="Images/Wait.gif"/>
             <fieldset class="fieldset-border">
                 <legend class="legend-border">Lista de Productos afectados</legend>
                 <div class="row">
@@ -13,7 +12,7 @@
                             <div class="col-sm-4">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Producto</th>
+                                        <th>Producto</th>
                                         <th class="text-center">Costo actual</th>
                                         <th class="text-center">Precio actual</th>
                                     </tr>
@@ -21,9 +20,9 @@
                                 <tbody>
                                     <tr ng-repeat="alerta in alertaLista | start: (currentPage - 1) * itemsPerPage | limitTo: itemsPerPage"
                     ng-click="selected.item = row" class="link">
-                                        <td class="text-center"><a ng-click="productoDetalle(alerta.Id)">{{alerta.nombre}}</a></td>
-                                        <td class="text-center">{{alerta.costo |  number:2}}</td>
-                                        <td class="text-center">{{alerta.precio | number:2}}</td>
+                                        <td><a ng-click="productoDetalle(alerta.Id)">{{alerta.nombre}}</a></td>
+                                        <td class="text-right">{{alerta.costo |  number:2}}</td>
+                                        <td class="text-right">{{alerta.precio | number:2}}</td>
                                     </tr>   
                                 </tbody>
                             </div>
@@ -45,7 +44,7 @@
                                     <tbody>
                                         <tr ng-repeat="articulo in listaArticulo" class="link">
                                             <td>{{articulo.Nombre}}</td>
-                                            <td class="text-right">{{articulo.NuevoCosto}}</td>
+                                            <td class="text-right">{{articulo.NuevoCosto | number:2}}</td>
                                         </tr>   
                                     </tbody>
                                 </table>
@@ -63,7 +62,7 @@
         </br></br>
 
             <fieldset class="fieldset-border">
-                <legend class="legend-border">Detalle de Insimos del Producto</legend>
+                <legend class="legend-border">Insumos de {{producto.Nombre}}</legend>
                     <div class="row">
                         <div class="col-md-12">
                             <div id="gridProductos">
@@ -72,19 +71,19 @@
                                         <tr>
                                             <th class="text-center">Insumo</th>
                                             <th class="text-center">U.M</th>
-                                            <th class="text-center">Cantidad</th>
-                                            <th class="text-center">Costo Unit.</th>
-                                            <th class="text-center">Importe</th>
+                                            <th class="text-right">Cantidad</th>
+                                            <th class="text-right">Costo Unit.</th>
+                                            <th class="text-right">Importe</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                         <tr ng-repeat="item in listaInsumos" class="link">  
+                                         <tr ng-repeat="item in Insumos" class="link">  
                                <!--            <td class="text-right">{{ selected.item.nombre }}</td>   -->
-                                        <td class="text-right">{{item.Nombre}}</td>
+                                        <td>{{item.Nombre}}</td>
                                         <td class="text-center">{{item.UnidadMedida}}</td>
-                                        <td class="text-center">{{item.Cantidad | number:3}}</td>
-                                        <td class="text-center">{{item.Costo | number:2}}</td>
-                                        <td class="text-center">{{item.Importe | number:2}}</td> 
+                                        <td class="text-right">{{item.Cantidad | number:3}}</td>
+                                        <td class="text-right">{{item.Costo | number:2}}</td>
+                                        <td class="text-right">{{item.Importe | number:2}}</td> 
                                         </tr> 
                                     </tbody>
                                 </table>
@@ -122,7 +121,7 @@
                     <div class="form-group">
                         <label for="inputType" class="col-md-2 control-label">Nuevo Costo:</label>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" disabled>
+                                <input type="text" ng-model="producto.Costo" class="form-control" disabled>
                             </div>
                     </div>
                 </div>
@@ -133,13 +132,11 @@
                     <div class="form-group">
                         <label for="inputType" class="col-md-2 control-label">Nuevo Precio:</label>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" disabled>
+                                <input type="text" ng-model="producto.Precio" class="form-control" disabled>
                             </div>
                     </div>
                 </div>
             </div>
-
-
 		</fieldset>
 	</div>
 </div>

@@ -4,6 +4,7 @@ app.controller('ProductoEditarCtrl', function ($scope, $stateParams, $state, $mo
     $scope.isLoading = true;
     ProductoFtry.get(id).success(function (data) {
         $scope.producto = data;
+        console.log($scope.producto);
         ArticuloFtry.getAll().success(function (data) {
             $scope.listaArticulo = data;
             CategoriaFtry.getAll().success(function (data) {
