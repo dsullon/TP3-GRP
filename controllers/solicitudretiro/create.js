@@ -4,7 +4,7 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
         //'FechaEnvio': '',//new Date(),
         'Comentario': '',
         'IdProyeccion': '2',    // 2:es la ultima proyeccion realizada
-        'TipoSimulacion': '1',  // 1:todos, 2:personalizada
+        'TipoSimulacion': '1',  // 2:todos, 1:personalizada
         'Estado': '1'           // 1:creado, 2: aprobado, 3:rechazado
     };
     var Tipo = 1;// Tipo item solicitud de la tabla comboSolicitudRetiro
@@ -12,7 +12,8 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
     $scope.PorcentajeAporteSimulacion = parseFloat(0); // acumulado de % de aporte de combos en simmulacion
     $scope.CombosxRetiro = [];
     $scope.CombosxProyeccion = [];
-    $scope.IngresoProyectadoAfecto = parseFloat(0);
+    $scope.IngresoProyectadoAfectoPendiente = parseFloat(0);
+    $scope.IngresoProyectadoAfectoSimulado = parseFloat(0);
     $scope.DesabilitarSimulacion = true; //para controlar fieldset de simulacion
     $scope.TipoSimulacion = 1; // para controlar el boton agregar combo
    
@@ -20,7 +21,7 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
         $scope.listaCombo = data;
     });
 
-    $scope.agregarCombosPorRetirar = function (size) {
+    $scope.agregarComboSolicitud = function (size) {
         var modalInstance = $modal.open({
             templateUrl: 'modalContent.html',
             controller: 'ModalInstanceCtrl',
@@ -43,9 +44,8 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
             nuevoCombo.PorcentajeCumplimiento = parseFloat(nuevoCombo.VentaReal/nuevoCombo.VentaProyectada).toFixed(4);
             nuevoCombo.Tipo = Tipo;
             $scope.PorcentajeAporteAfecto += parseFloat(selectedItem.item.PorcentajeAporte);
-            $scope.IngresoProyectadoAfecto += parseFloat(nuevoCombo.Saldo); // Calculando el IPA         
-            //console.log($scope.IngresoProyectadoAfecto);
-            //console.log($scope.PorcentajeAporteAfecto);
+            $scope.IngresoProyectadoAfectoPendiente += parseFloat(nuevoCombo.Saldo); // Calculando el IPA         
+
             $scope.CombosxRetiro.push(nuevoCombo);
             $scope.DesabilitarSimulacion = false;
         }, function () {
@@ -54,7 +54,42 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
         });
     };
 
-    $scope.agregarCombosPorSimularPersonalizado = function (size) {
+    function realizarSimulacion(){
+        var pesoInterno = parseFloat(0);
+        var comboSimulado; 
+        var nuevoAporte = parseFloat(0); 
+        var nuevoPorcentaje = parseFloat(0); 
+        var nuevoPorcentaje = parseFloat(0);  
+        $scope.IngresoProyectadoAfectoSimulado = 0; 
+
+        for (var idx = 0; idx < $scope.CombosxProyeccion.length; idx++) {
+            comboSimulado = $scope.CombosxProyeccion[idx];
+            pesoInterno = parseFloat(comboSimulado.PorcentajeAporte/$scope.PorcentajeAporteSimulacion).toFixed(6);
+            $scope.CombosxProyeccion[idx].pesoInterno = pesoInterno;
+            nuevoAporte = parseFloat(comboSimulado.VentaProyectada)+parseFloat(pesoInterno)*parseFloat($scope.IngresoProyectadoAfectoPendiente);
+            $scope.CombosxProyeccion[idx].VentaProyectadaNueva = nuevoAporte;
+            nuevoPorcentaje = parseFloat($scope.PorcentajeAporteAfecto)*parseFloat(pesoInterno)+parseFloat(comboSimulado.PorcentajeAporte);
+            $scope.CombosxProyeccion[idx].PorcentajeNuevoAporte = parseFloat(nuevoPorcentaje).toFixed(6);
+            $scope.IngresoProyectadoAfectoSimulado += parseFloat(nuevoAporte)-parseFloat(comboSimulado.VentaProyectada);
+
+        }
+    }
+
+    function cargarCombosPorSimular(selectedItem){
+        var nuevoRegistro = {};
+        nuevoRegistro.Id = selectedItem.item.Id;
+        nuevoRegistro.Nombre = selectedItem.item.Nombre;
+        nuevoRegistro.VentaProyectada = parseFloat(selectedItem.item.MontoProyectado);
+        nuevoRegistro.PorcentajeAporte = parseFloat(selectedItem.item.PorcentajeAporte).toFixed(4);
+        nuevoRegistro.VentaReal = parseFloat(selectedItem.item.VentaPeriodo);
+        $scope.PorcentajeAporteSimulacion += parseFloat(selectedItem.item.PorcentajeAporte);
+        nuevoRegistro.PorcentajeNuevoAporte = parseFloat(0); // este campo se llena en la simulacion
+        nuevoRegistro.VentaProyectadaNueva = parseFloat(0);  // este campo se llena en la simulacion
+        $scope.CombosxProyeccion.push(nuevoRegistro);
+        realizarSimulacion();
+    }
+
+    $scope.agregarComboSimulacion = function (size) {
         var modalInstance = $modal.open({
             templateUrl: 'modalContent.html',
             controller: 'ModalInstanceCtrl',
@@ -71,55 +106,41 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
             //$log.info('Modal dismissed at: ' + new Date());
         });
     };
-
-    function realizarSimulacion(){
-        var pesoInterno = parseFloat(0);
-        var comboSimulado; 
-        var nuevoAporte = parseFloat(0); 
-        var nuevoPorcentaje = parseFloat(0);  
-
-        for (var idx = 0; idx < $scope.CombosxProyeccion.length; idx++) {
-            comboSimulado = $scope.CombosxProyeccion[idx];
-            pesoInterno = parseFloat(comboSimulado.PorcentajeAporte/$scope.PorcentajeAporteSimulacion).toFixed(4);
-            $scope.CombosxProyeccion[idx].pesoInterno = pesoInterno;
-            nuevoAporte = parseFloat(comboSimulado.VentaProyectada)+parseFloat(pesoInterno)*parseFloat($scope.IngresoProyectadoAfecto);
-            $scope.CombosxProyeccion[idx].VentaProyectadaNueva = nuevoAporte;
-            nuevoAporte = parseFloat($scope.PorcentajeAporteAfecto)*parseFloat(pesoInterno)+parseFloat(comboSimulado.PorcentajeAporte);
-            $scope.CombosxProyeccion[idx].PorcentajeNuevoAporte = parseFloat(nuevoAporte).toFixed(4);
-        }
+    
+    $scope.simulacionPersonalizada = function (){
+        console.log("ingresamos a simulacion personalizada")
+        $scope.TipoSimulacion = 1;
+        $scope.limpiarSimulacion();
     }
 
-    function cargarCombosPorSimular(selectedItem){
-        //console.log(selectedItem);  
-        var nuevoRegistro = {};
-        nuevoRegistro.Id = selectedItem.item.Id;
-        nuevoRegistro.Nombre = selectedItem.item.Nombre;
-        nuevoRegistro.VentaProyectada = parseFloat(selectedItem.item.MontoProyectado);
-        nuevoRegistro.PorcentajeAporte = parseFloat(selectedItem.item.PorcentajeAporte).toFixed(4);
-        nuevoRegistro.VentaReal = parseFloat(selectedItem.item.VentaPeriodo);
-        nuevoRegistro.PorcentajeNuevoAporte = parseFloat(0);
-        $scope.PorcentajeAporteSimulacion += parseFloat(selectedItem.item.PorcentajeAporte);
-        nuevoRegistro.VentaProyectadaNueva = parseFloat(0);
-        $scope.CombosxProyeccion.push(nuevoRegistro); // otro comentario para probar git
-        realizarSimulacion();
-        //console.log(nuevoRegistro);           
-    }
-
-    $scope.agregarCombosPorSimularTotal = function (){
-        var data = {
-            item:{}
-        };
+    // Esta funcion se ejecuta solo si la simulacion es general o total
+    $scope.simulacionTotal = function (){
+        var data = {item:{}};
+        var existe = false;
+        var encontrados = 0;
+        $scope.TipoSimulacion = 2;        
+        reiniciarSimulacion();
+        console.log("ingresamos a simulacion total")
+        
+        // Aqui sacamos los combos de la solicitud de retiro antes de la simulacion final
         for (var idx = 0; idx < $scope.listaCombo.length; idx++ ){
-            data.item = $scope.listaCombo[idx];
-            console.log(data);
-            cargarCombosPorSimular(data);            
+            var idy = 0;
+            while (idy < $scope.CombosxRetiro.length && $scope.CombosxRetiro.length != encontrados){
+                if ($scope.CombosxRetiro[idy].IdCombo == $scope.listaCombo[idx].Id){
+                    existe = true;
+                    encontrados++;
+                    idy = $scope.CombosxRetiro.length;
+                }
+                idy++;
+            }
+            if (!existe){
+                data.item = $scope.listaCombo[idx];
+                cargarCombosPorSimular(data);
+            }                      
+            existe = false;
         }
-    }
 
-    $scope.limpiarCombosPorSimular = function (){
-        $scope.CombosxProyeccion = [];
     }
-
 
     $scope.grabar = function(){
         //console.log($scope.solicitudretiro);
@@ -146,16 +167,39 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
         $scope.alert = null;
     };
 
+    // Esta funcion se llama desde la zona "Combos a retirar" de la solicitud
     $scope.quitarItemEliminar = function (insumo) {
         var index = $scope.CombosxRetiro.indexOf(insumo);
         $scope.CombosxRetiro.splice(index, 1);
-
+        if ($scope.CombosxRetiro.length > 0 && $scope.ControlTipoSimulacion == 2){
+            $scope.simulacionTotal();            
+        } else { // Si retiramos el ultimo combo de la solicitud limpiamos todo
+            $scope.limpiarSimulacion();
+            $scope.ControlTipoSimulacion = 1;
+            $scope.IngresoProyectadoAfectoPendiente = 0;
+            $scope.PorcentajeAporteAfecto = parseFloat(0); 
+        }        
     }
+
+    function reiniciarSimulacion(){
+        $scope.CombosxProyeccion = []; // limpia los combos anteriores
+        $scope.IngresoProyectadoAfectoSimulado = 0;
+        $scope.PorcentajeAporteSimulacion = parseFloat(0);
+    }
+
+    $scope.limpiarSimulacion = function (insumo) {
+        // Esta funcion solo se ejecuta si la simulacion es personalizada
+        reiniciarSimulacion();
+
+        //$scope.CombosxProyeccion = [];
+        //$scope.IngresoProyectadoAfectoSimulado = 0;
+        //$scope.PorcentajeAporteSimulacion = parseFloat(0);
+    }
+
 
     $scope.quitarItemSimular = function (insumo) {
         var index = $scope.CombosxProyeccion.indexOf(insumo);
         $scope.CombosxProyeccion.splice(index, 1);
-
     }
 
 })
