@@ -1,19 +1,19 @@
 app.controller('SimularPrecioCtrl', function ($scope, $stateParams, $state, $modal, ProductoFtry, controlCostoFtry, simularPrecioFtry) {
     var id = $stateParams.producto;
     $scope.listaArticulo = [];
+    $scope.listaInsumos = [];
     ProductoFtry.getAllPerItem(id).success(function (data) {
         $scope.alertaLista = data;
         $scope.isLoading = false;
         $scope.showNoData = false;
         $scope.items = $scope.alertaLista;
         for (var i = 0; i < id.length; i++) {
-            controlCostoFtry.getUmbralPerId(id[i]).success(function (data) {                
+            controlCostoFtry.getUmbralPerId(id[i]).success(function (data) {
                 $scope.listaArticulo.push(data);
             }).error(function(err){
 
             });
         }
-        console.log($scope.listaArticulo);
     }).error(function(err){
         $scope.isLoading = false;
         $scope.showNoData = true;
@@ -34,7 +34,18 @@ app.controller('SimularPrecioCtrl', function ($scope, $stateParams, $state, $mod
         var idd = $stateParams.id;*/
         //$scope.isLoading = true;
         simularPrecioFtry.getDetails(id).success(function (data) {
-            $scope.listaInsumos = data;
+            var datos = data;
+            console.log(datos);
+            for(var i = 0; i < datos.length; i++){
+                for(var j = 0; j < $scope.listaArticulo.length; j++){
+                    console.log($scope.listaArticulo[j]);
+                    if(datos[i].IdArticulo == $scope.listaArticulo[j].Id){
+                        datos[i].Costo = $scope.listaArticulo[j].NuevoCosto;
+                        continue;
+                    }
+                }
+                $scope.listaInsumos.push(datos[i]);
+            }
             console.log(data);
         });
     }

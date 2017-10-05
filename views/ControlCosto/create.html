@@ -22,8 +22,8 @@
                                     <tr ng-repeat="alerta in alertaLista | start: (currentPage - 1) * itemsPerPage | limitTo: itemsPerPage"
                     ng-click="selected.item = row" class="link">
                                         <td class="text-center"><a ng-click="productoDetalle(alerta.Id)">{{alerta.nombre}}</a></td>
-                                        <td class="text-center">{{alerta.costo}}</td>
-                                        <td class="text-center">{{alerta.precio}}</td>
+                                        <td class="text-center">{{alerta.costo |  number:2}}</td>
+                                        <td class="text-center">{{alerta.precio | number:2}}</td>
                                     </tr>   
                                 </tbody>
                             </div>
@@ -82,9 +82,9 @@
                                <!--            <td class="text-right">{{ selected.item.nombre }}</td>   -->
                                         <td class="text-right">{{item.Nombre}}</td>
                                         <td class="text-center">{{item.UnidadMedida}}</td>
-                                        <td class="text-center">{{item.Cantidad}}</td>
-                                        <td class="text-center">{{item.Costo}}</td>
-                                        <td class="text-center">{{item.Importe}}</td> 
+                                        <td class="text-center">{{item.Cantidad | number:3}}</td>
+                                        <td class="text-center">{{item.Costo | number:2}}</td>
+                                        <td class="text-center">{{item.Importe | number:2}}</td> 
                                         </tr> 
                                     </tbody>
                                 </table>
