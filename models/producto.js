@@ -32,7 +32,7 @@ app.factory("ProductoFtry", function ($http, $location, $rootScope) {
                 url: $rootScope.baseUrl + '/producto',
                 method: "PUT",
                 data: data,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                headers: { 'Content-Type': 'application/json' }
             });
         },
         create: function (data) {

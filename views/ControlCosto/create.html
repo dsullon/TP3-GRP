@@ -4,6 +4,7 @@
 			<legend>Simulación de Precio</legend>
             </br>
             <img ng-if="isLoading" src="Images/Wait.gif"/>
+            <div class="alert alert-warning" ng-if="showError">{{mensaje}}</div>
             <fieldset class="fieldset-border">
                 <legend class="legend-border">Lista de Productos afectados</legend>
                 <div class="row">
@@ -94,7 +95,7 @@
 
             <table>
                 <div class="form-group row col-md-3">
-                    <a class="btn btn-primary">
+                    <a class="btn btn-primary" ng-click="actualizar()">
                         <span class='glyphicon glyphicon-hand-up'>
                         SIMULAR PRECIO
                         </span>

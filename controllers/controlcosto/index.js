@@ -1,16 +1,21 @@
 app.controller('controlCostoCtrl', function ($scope, $state, controlCostoFtry,filterFilter) {
     $scope.isLoading = true;
-    $scope.showNoData = false;
+    $scope.mensaje = "";
+    $scope.showError = false;
     $scope.enviar = [];
     controlCostoFtry.getAll().success(function (data) {
         $scope.alertaLista = data;
         $scope.isLoading = false;
-        $scope.showNoData = false;
+        $scope.showError = false;
         $scope.items = $scope.alertaLista;
-    }).catch(function(err, status, headers){
-        console.log(err.config);
+    }).error(function(err, status){
+        if(status == -1){
+            $scope.mensaje = "No se pudo conectar con el servicio.";
+        }else{
+            $scope.mensaje = 'Error:' + status + ' - ' + err.Message;
+        }
+        $scope.showError = true;        
         $scope.isLoading = false;
-        $scope.showNoData = true;
     });
 
     $scope.eliminar = function(id){

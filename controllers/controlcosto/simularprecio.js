@@ -4,18 +4,32 @@ app.controller('SimularPrecioCtrl', function ($scope, $stateParams, $state, $mod
     $scope.listaInsumos = [];
     $scope.producto;
     $scope.isLoading = true;
+    $scope.mensaje = "";
+    $scope.showError = false;
     ProductoFtry.getAllPerItem(id).success(function (data) {
         $scope.alertaLista = data;
         $scope.items = $scope.alertaLista;
         for (var i = 0; i < id.length; i++) {
             controlCostoFtry.getUmbralPerId(id[i]).success(function (data) {
                 $scope.listaArticulo.push(data);
-            }).error(function(err){
-
+            }).error(function(err, status){
+                if(status == -1){
+                    $scope.mensaje = "No se pudo conectar con el servicio.";
+                }else{
+                    $scope.mensaje = 'Error:' + status + ' - ' + err.Message;
+                }
+                $scope.showError = true;        
+                $scope.isLoading = false;
             });
         }
         $scope.isLoading = false;
-    }).error(function(err){
+    }).error(function(err, status){
+        if(status == -1){
+            $scope.mensaje = "No se pudo conectar con el servicio.";
+        }else{
+            $scope.mensaje = 'Error:' + status + ' - ' + err.Message;
+        }
+        $scope.showError = true;        
         $scope.isLoading = false;
     });
 
@@ -32,7 +46,6 @@ app.controller('SimularPrecioCtrl', function ($scope, $stateParams, $state, $mod
         $scope.isLoading = true;
         ProductoFtry.get(id).success(function (data) {
             $scope.producto = data;
-            console.log($scope.producto);
             ProductoFtry.getDetails(id).success(function (data) {
                 $scope.Insumos = data;
                 for(var i = 0; i < $scope.Insumos.length; i++){
@@ -48,6 +61,34 @@ app.controller('SimularPrecioCtrl', function ($scope, $stateParams, $state, $mod
                 $scope.isLoading = false;
             });
         })
+    }
+
+    $scope.actualizar = function(){
+        if(!$scope.producto){
+            $scope.showError = true;
+            $scope.mensaje = 'No se ha seleccionado el producto';
+            return;
+        }
+        if(!$scope.Insumos || $scope.Insumos.length == 0){
+            $scope.showError = true;
+            $scope.mensaje = 'No se ha ingresado los insumos';
+            return;
+        }
+        $scope.producto.Insumos = $scope.Insumos;
+        $scope.isLoading = true;
+        ProductoFtry.update($scope.producto).success(function (data) {
+            alert("Datos grabados");
+            $state.go("app.controlCosto");
+            $scope.isLoading = false;
+        }).error(function(err, status){
+            if(status == -1){
+                $scope.mensaje = "No se pudo conectar con el servicio.";
+            }else{
+                $scope.mensaje = 'Error:' + status + ' - ' + err.Message;
+            }
+            $scope.showError = true;        
+            $scope.isLoading = false;
+        });
     }
 
     function calcularCosto(){

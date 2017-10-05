@@ -21,7 +21,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <img ng-if="isLoading" src="Images/Wait.gif"/>
-                            <div class="alert alert-warning" ng-if="showNoData">No hay datos disponibles</div>
+                            <div class="alert alert-warning" ng-if="showError">{{mensaje}}</div>
                             <table class="table table-striped m-b-none">
                                 <thead>
                                     <tr>
