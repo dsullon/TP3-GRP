@@ -168,17 +168,36 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
     };
 
     // Esta funcion se llama desde la zona "Combos a retirar" de la solicitud
-    $scope.quitarItemEliminar = function (insumo) {
-        var index = $scope.CombosxRetiro.indexOf(insumo);
+    $scope.quitarItemEliminar = function (idCombo) {
+        var index = $scope.CombosxRetiro.indexOf(idCombo);
+        var combo = $scope.CombosxRetiro[idCombo];
+        var saldoEliminado = combo.Saldo;
+        var porcentajeAporteEliminado = combo.PorcentajeAporte;
         $scope.CombosxRetiro.splice(index, 1);
-        if ($scope.CombosxRetiro.length > 0 && $scope.ControlTipoSimulacion == 2){
-            $scope.simulacionTotal();            
+
+        if ($scope.CombosxRetiro.length > 0){
+            console.log("dentro del if");
+            if ($scope.ControlTipoSimulacion == 2){ // Si tenemos una simulacion total
+                console.log("dentro del if de simulacion total");
+                $scope.simulacionTotal();
+            } else {
+                console.log("dentro del else del punto 1")
+                $scope.IngresoProyectadoAfectoPendiente -= parseFloat(saldoEliminado);
+                $scope.PorcentajeAporteAfecto -= parseFloat(porcentajeAporteEliminado);
+            }         
         } else { // Si retiramos el ultimo combo de la solicitud limpiamos todo
             $scope.limpiarSimulacion();
+            console.log("dentro del else");
             $scope.ControlTipoSimulacion = 1;
             $scope.IngresoProyectadoAfectoPendiente = 0;
             $scope.PorcentajeAporteAfecto = parseFloat(0); 
         }        
+    }
+
+    // Esta funcion se llama desde la zona "Simulacion de proyeccion" de la solicitud
+    $scope.quitarItemSimular = function (combo) {
+        var index = $scope.CombosxProyeccion.indexOf(combo);
+        $scope.CombosxProyeccion.splice(index, 1);
     }
 
     function reiniciarSimulacion(){
@@ -194,12 +213,6 @@ app.controller('SolicitudRetiroCrearCtrl', function ($scope, $state, $modal,
         //$scope.CombosxProyeccion = [];
         //$scope.IngresoProyectadoAfectoSimulado = 0;
         //$scope.PorcentajeAporteSimulacion = parseFloat(0);
-    }
-
-
-    $scope.quitarItemSimular = function (insumo) {
-        var index = $scope.CombosxProyeccion.indexOf(insumo);
-        $scope.CombosxProyeccion.splice(index, 1);
     }
 
 })

@@ -47,7 +47,7 @@
                                                 <td class="text-right">S/. {{ item.Saldo | number:2 }}</td>
                                                 <td class="text-right">{{ item.PorcentajeCumplimiento | number:2 }}</td>
                                                 <td class="text-right">
-                                                    <a ng-click="quitarItemEliminar(item.Id)" title="Eliminar combo">Eliminar</a>
+                                                    <a ng-click="quitarItemEliminar($index)" title="Eliminar combo">Eliminar</a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -141,7 +141,7 @@
                                                 <td class="text-right">{{ item.VentaProyectadaNueva|number:2 }}</td>
                                                 <td class="text-right">{{ item.PorcentajeNuevoAporte|number:2 }}</td>
                                                 <td class="text-right">
-                                                        <a ng-if="TipoSimulacion == 1" ng-click="quitarItemSimular(item.Id) ng-" title="Eliminar combo">Eliminar</a>
+                                                    <a ng-if="TipoSimulacion == 1" ng-click="quitarItemSimular(item.Id)" title="Eliminar combo">Eliminar</a>                                                        
                                                 </td>
                                             </tr>
                                         </tbody>
