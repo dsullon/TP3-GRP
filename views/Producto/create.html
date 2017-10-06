@@ -3,9 +3,8 @@
         <fieldset>
             <legend>Nuevo producto</legend>
             <br />
-            <div uib-alert ng-if="showAlert" ng-class="'alert-' + (alert.type || 'warning')" 
-                close="closeAlert($index)">{{alert.msg}}</div>
-            <alert ng-if="alert!=null" type="{{alert.type}}" close="closeAlert()">{{alert.msg}}</alert>
+            <img ng-if="isLoading" src="Images/Wait.gif"/>
+            <div class="alert alert-warning" ng-if="showError" style="white-space: pre-line;">{{mensaje}}</div>
             <form name="frm">
                 <tabset class="tab-container">
                     <tab>
@@ -62,10 +61,10 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="inputType" class="col-md-2 control-label">porcioneses:</label>
+                                            <label for="inputType" class="col-md-2 control-label">Porciones:</label>
                                             <div class="col-md-4">
-                                                <input type="text" class="form-control" placeholder="Número de porciones" 
-                                                    ng-model="producto.Porciones" required>
+                                                <input type="number" class="form-control" placeholder="Número de porciones" 
+                                                    ng-model="producto.Porciones" required min="1">
                                             </div>
                                         </div>
                                     </div>
