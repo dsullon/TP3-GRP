@@ -29,7 +29,7 @@
                                         <th>Fecha Envio</th>
                                         <th>Tipo de simulacion</th>
                                         <th>Estado</th>
-                                        <th></th>
+                                        <th>Accion</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -38,8 +38,7 @@
                                         <td>{{solicitudretiro.FechaEnvio}}</td>
                                         <td>{{solicitudretiro.TipoSimulacion}}</td>
                                         <td>{{solicitudretiro.Estado}}</td>
-                                        <td><a ui-sref="app.editarSolicitudRetiro({id:solicitudretiro.Id})" title="Editar solicitud de retiro">Editar</a> | 
-                                            <a ng-click="eliminar(solicitudretiro.Id)" href="#"  title="Eliminar solicitud de retiro">Eliminar</a></td>
+                                        <td><a ui-sref="app.editarSolicitudRetiro({id:solicitudretiro.Id})" title="Editar solicitud de retiro">Ver</a></td>
                                     </tr>
                                 </tbody>
                             </table>

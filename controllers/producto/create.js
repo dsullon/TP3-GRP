@@ -12,19 +12,29 @@ app.controller('ProductoCrearCtrl', function ($scope, $state, $modal, ProductoFt
         'Carbohidratos': '0.00',
         'Elaboracion': '',
         'IdCategoria': '0',
-        'Porciones': '1',
+        'Porciones': 1,
         'Umbral': '20'
     };
-
-    $scope.alert = null;
-
+    $scope.isLoading = true;
+    $scope.showError = false;
+    $scope.mensaje = "";
     $scope.Insumos = [];
 
     ArticuloFtry.getAll().success(function (data) {
         $scope.listaArticulo = data;
         CategoriaFtry.getAll().success(function (data) {
             $scope.listaCategoria = data;
+            $scope.showError = false;        
+            $scope.isLoading = false;
         });
+    }).error(function(err, status){
+        if(status == -1){
+            $scope.mensaje = "No se pudo conectar con el servicio.";
+        }else{
+            $scope.mensaje = 'Error:' + status + ' - ' + err.Message;
+        }
+        $scope.showError = true;        
+        $scope.isLoading = false;
     });
 
     $scope.open = function (size) {
@@ -65,7 +75,7 @@ app.controller('ProductoCrearCtrl', function ($scope, $state, $modal, ProductoFt
             });
             
         }, function () {
-            console.log('Modal dismissed at: ' + new Date());
+            //console.log('Modal dismissed at: ' + new Date());
         });
     };
 
@@ -105,25 +115,39 @@ app.controller('ProductoCrearCtrl', function ($scope, $state, $modal, ProductoFt
     }
 
     $scope.grabar = function(){
-        console.log($scope.producto);
+        var msg="";
+        if($scope.producto.IdCategoria <= 0){
+            msg += 'No se han completado los datos.\n';
+        }       
+        if(!$scope.producto.Nombre.replace(/ /g,'')){
+            msg += 'No se ha ingresado el nombre del producto.\n';
+        }
+        if(isNaN($scope.producto.Porciones) || $scope.producto.Porciones < 1){
+            msg += 'No se ha ingresado un número de porciones válido.\n';
+        }
         if(!$scope.Insumos || $scope.Insumos.length == 0){
-            $scope.alert = { type: 'warning', msg: 'No se ha ingresado los insumos del producto.' };
+            msg += 'No se ha ingresado los insumos del producto.\n';
+        } 
+        if(msg){
+            $scope.showError = true;
+            $scope.mensaje = msg;
             return;
         }
-        if($scope.producto.IdCategoria<=0){
-            $scope.alert = { type: 'warning', msg: 'No se han completado los datos.' };
-            return;
-        }
+
         $scope.producto.Insumos = $scope.Insumos;
+        $scope.isLoading = true;
         ProductoFtry.create($scope.producto).success(function (data) {
             alert("Datos grabados");
             $state.go("app.producto");
-        }).error(function (data) {
-
+            $scope.isLoading = false;
+        }).error(function(err, status){
+            if(status == -1){
+                $scope.mensaje = "No se pudo conectar con el servicio.";
+            }else{
+                $scope.mensaje = 'Error:' + status + ' - ' + err.Message;
+            }
+            $scope.showError = true;        
+            $scope.isLoading = false;
         });
     }
-
-    $scope.closeAlert = function () {
-        $scope.alert = null;
-    };
 })
