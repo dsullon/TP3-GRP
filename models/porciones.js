@@ -1,6 +1,6 @@
 app.factory("porcionesSimuladorFtry", function ($http, $location, $rootScope) {
 
-    var urlBasePorciones = "https://23df96cb.ngrok.io"; // https://23df96cb.ngrok.io
+    var urlBasePorciones = "https://dc518e3a.ngrok.io"; // https://23df96cb.ngrok.io
     return {
         get: function (id) {
             return $http({
