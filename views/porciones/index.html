@@ -1,0 +1,89 @@
+<div class="container2" ng-controller='PorcionCtrl'>
+    <div class="margenPanelRigth">
+        <fieldset>
+            <legend>Control de Porciones </legend>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-user"></i> Listado de Productos</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-lg-4" style="padding-left: 120px;">
+                                Seleccionar insumo:  
+                            </div>
+                            <div class="col-lg-4">
+                                <form name="myForm">
+                                    <select name="repeatSelect" id="repeatSelect" style="width:180px;" ng-model="idArticulo">
+                                        <option ng-repeat="option in availableOptions" value="{{option.codArticulo}}">{{option.nombre}}</option>
+                                    </select>
+                                </form>
+                            </div>
+                            <div class="col-lg-4">
+                                <button ng-click="myFunc(idArticulo)" style=" width:80px;">Buscar</button>
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="row">
+
+                            <div class="col-lg-4" style="padding-left: 120px;"> Costo de insumo en almacén:</div>
+                            <div class="col-lg-4"> 
+                                <input type="type" name="nombre" ng-model="viejoCosto" ng-readonly="true"> <span>soles</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4" style="padding-left: 120px;"> Costo del nuevo insumo:</div>
+                            <div class="col-lg-4"> 
+                                <input type="type" name="nombre" ng-model="nuevoCosto" ng-readonly="true"> <span>soles</span>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8"></div>
+                            <div class="col-md-4">
+                               <button class="btn btn-primary" ng-click="myFunc2(idArticulo)" style=" width:180px;">Generar Lista</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <img ng-if="isLoading" src="Images/Wait.gif"/>
+                            <div class="alert alert-warning" ng-if="showNoData">No hay datos disponibles</div>
+                            <table class="table table-striped m-b-none table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Productos</th>
+                                        <th>Modificado</th>
+                                        <th style="min-width: 50px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in Productos">
+                                        <!--<td><input type="checkbox" name="impresion" value="impresion"><br></td> -->
+                                        <td>{{item.nombre}}</td>
+                                        <td>{{item.modificado ? 'SI' : 'NO'}}</td>
+                                        <td>
+                                            <button type="button" ng-click="agregarSimulador(item, $index)" >Simular</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-8">
+                            <button type="button" style=" width: 180px; margin-left: 30px;" >Salir</button>
+                        </div>
+                    </div>
+                    </fieldset>
+                </div>
+            </div>
