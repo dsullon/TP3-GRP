@@ -247,6 +247,40 @@ angular.module('app')
                 });
               }
             }
+          })
+          
+          .state('app.controlporciones',{
+            url: '/porciones',
+            templateUrl: 'views/porciones/index.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'models/porciones.js',
+                    'models/producto.js',
+                    'controllers/porciones/index.js'
+                  ]
+                });
+              }
+            }
+          })
+          .state('app.simularporciones',{
+            url: '/porciones/simular',
+            templateUrl: 'views/porciones/simular.html',
+            resolve: {
+              load: function($ocLazyLoad){
+                return $ocLazyLoad.load({
+                  name: "app",
+                  files: [
+                    'models/porciones.js',
+                    'models/categoria.js',
+                    'controllers/porciones/index.js',
+                    'controllers/porciones/simular.js'
+                  ]
+                });
+              }
+            }
           });
       }   
     ]
