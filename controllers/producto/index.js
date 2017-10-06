@@ -1,4 +1,4 @@
-app.controller('ProductoCtrl', function ($scope, ProductoFtry) {
+app.controller('ProductoCtrl', function ($scope, $state, $modal, ProductoFtry) {
     $scope.isLoading = true;
     $scope.showError = false;
     $scope.mensaje = "";
@@ -20,6 +20,46 @@ app.controller('ProductoCtrl', function ($scope, ProductoFtry) {
         $scope.showError = true;        
         $scope.isLoading = false;
     })
+
+    $scope.open = function (item) {
+        var error = false;
+        var codigo;
+        var mensaje;
+        $modal.open({
+            templateUrl: 'eliminar.html',
+            backdrop: true,
+            windowClass: 'modal',
+            size: 'sm',
+            controller: function ($scope, $modalInstance) {
+                $scope.item = item;
+                console.log(item);
+                $scope.ok = function () {
+                    $scope.isLoading = true;
+                    ProductoFtry.delete(item.Id).success(function (data) {
+                        $state.reload();
+                    }).error(function(err, status){
+                        error = true;
+                        if(status == -1){
+                           mensaje = "No se pudo conectar con el servicio.";
+                        }else{
+                            mensaje = 'Error:' + status + ' - ' + err.Message;
+                        }
+                    });
+                    $modalInstance.dismiss('cancel');
+                    //console.log("Submit");
+                }
+                $scope.cancel = function () {
+                    $modalInstance.dismiss('cancel');
+                    //console.log("Cancel");
+                };
+            }
+        });
+        if(error){
+            $scope.showError = true;        
+            $scope.isLoading = false;
+            $scope.mensaje = mensaje;
+        }
+    }
 
     $scope.eliminar = function(id){
         alert(id);

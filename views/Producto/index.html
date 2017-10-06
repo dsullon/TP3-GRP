@@ -28,6 +28,7 @@
                                         <th>Producto</th>
                                         <th>Precio</th>
                                         <th>Tipo</th>
+                                        <th>¿Activo?</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -36,8 +37,9 @@
                                         <td>{{producto.Nombre}}</td>
                                         <td>{{producto.Precio | number:2}}</td>
                                         <td>{{producto.Categoria}}</td>
-                                        <td><a ui-sref="app.editarProducto({id:producto.Id})" title="Editar producto">Editar</a> | 
-                                            <a ng-click="eliminar(producto.Id)" href="#"  title="Eliminar producto">Eliminar</a></td>
+                                        <td class="text-center"><input type="checkbox" ng-checked="producto.Estado" disabled></td>
+                                        <td><a ui-sref="app.editarProducto({id:producto.Id})" class="btn" title="Editar producto">Editar</a> | 
+                                            <a ng-click="open(producto)" class="btn" title="Eliminar producto">Eliminar</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -49,5 +51,17 @@
             </div>
             <br />
         </fieldset>
+        <script type="text/ng-template" id="eliminar.html">
+            <div class="modal-header">
+                <h3>Eliminar</h3>
+            </div>
+            <div class="modal-body">
+                ¿Desea eliminar el producto: <strong>{{item.Nombre}}</strong>?
+            </div>           
+            <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="ok()">Ok</button>
+                <button class="btn" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
     </div>
 </div>
