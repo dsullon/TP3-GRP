@@ -104,8 +104,9 @@ app.controller('PorcionSimuladorCtrl', function ($scope, items, $modalInstance, 
     $scope.costoProducto = items.costo;
     $scope.costoDiferencial = parseFloat(items.costo) - $scope.costoItemSimulado;
 
-    $scope.mensaje = "Debe cambiar la porción de " + $scope.nombreArticulo + " para no exceder el costo";
-
+    $scope.mensaje = "Debe cambiar la porcion de " + $scope.nombreArticulo + " para no exceder el costo";
+    $scope.mensaje2 = "La cantidad de la porci&oacute;n debe ser mayor a 0";
+    //mensaje2
     $scope.cambiarPorcion = function (cantidad) {
         $scope.productoB = parseFloat(cantidad);
         $scope.costoItemSimuladoResultado = ($scope.productoA * $scope.productoB) + $scope.costoDiferencial;
@@ -116,17 +117,25 @@ app.controller('PorcionSimuladorCtrl', function ($scope, items, $modalInstance, 
     };
 
     $scope.actualizar = function () {
+        $scope.rangoCostoPermitido = false;
         var data = {};
         console.log(itemArticulo, items);
         data.codArticulo = itemArticulo.codArticulo;
         data.codProducto = items.codProducto;
         data.cantidad = $scope.item.cantidad;
-        porcionesSimuladorFtry.getActualizarCantidadProducto(data).then(function (respuesta) {
-            console.log(respuesta.data);
-            $modalInstance.close(true);
-        }, function () {
 
-        })
+        if (!(parseFloat($scope.costoProducto) < $scope.costoItemSimuladoResultado)) {
+            if (parseFloat($scope.item.cantidad) > 0) {
+                porcionesSimuladorFtry.getActualizarCantidadProducto(data).then(function (respuesta) {
+                    console.log(respuesta.data);
+                    $modalInstance.close(true);
+                }, function () {
+
+                })
+            } else {
+                $scope.rangoCostoPermitido = true;
+            }
+        }
     }
 
 

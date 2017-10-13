@@ -24,8 +24,8 @@
 
                                         <td class="text-right">{{nombreArticulo}}</td>
                                         <td class="text-right">
-                                            <input type="number" name="costosimulado" ng-model="item.cantidad"  ng-change="cambiarPorcion(item.cantidad)"> 
-                                        </td>
+                                            <input type="number" min="0.001" name="costosimulado" ng-model="item.cantidad"  ng-change="cambiarPorcion(item.cantidad)"> 
+                                       </td>
                                         <td class="text-center">{{itemArticulo.unidadMedida}}</td>
                                         <td class="text-right">{{costoItemSimulado}}</td>
                                     </tr>
@@ -67,6 +67,10 @@
                 <div class="row" ng-if="mensajeAdvertencia"> 
                     <input type="type" name="advertencia"  value="{{mensaje}}"
                            style="min-width: 600px; text-align: center; margin-left: 150px;">
+                </div>
+                <div ng-show="rangoCostoPermitido" style="
+                     text-align: center;">
+                <label style="color: red;" ng-if="rangoCostoPermitido"> La cantidad de la porci&oacute;n debe ser mayor a 0 </label>
                 </div>
             </fieldset>
         </div>
